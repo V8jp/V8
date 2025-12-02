@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>V8 Corporation | 八つのVで未来を創る不動産会社</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="V8 Corporation - Vision, Value, Venture, Victory, Vitality, Vanguard, Velocity, Voice。8つのVを軸に不動産の新しい可能性を追求。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --bg-light: #fafafa;
+      --bg-subtle: #f5f5f5;
+      --accent-gold: #9a8256;
+      --accent-dark: #1a1a1a;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --text-muted: #888888;
+      --border-light: #eaeaea;
+      --border-medium: #d5d5d5;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.1);
+      --radius-sm: 0;
+      --radius-md: 2px;
+      --radius-lg: 4px;
+      --radius-xl: 8px;
+      --font-display: 'Inter', sans-serif;
+      --font-body: 'Zen Kaku Gothic New', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; cursor: none; }
+    
+    /* Custom Cursor */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent-gold); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease; }
+    .cursor-follower { position: fixed; width: 32px; height: 32px; border: 1px solid var(--accent-gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.3s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease; opacity: 0.5; }
+    .cursor.hover { width: 12px; height: 12px; background: var(--accent-dark); }
+    .cursor-follower.hover { width: 48px; height: 48px; opacity: 0.3; }
+    
+    body { font-family: var(--font-body); background: var(--bg-white); color: var(--text-primary); line-height: 1.8; overflow-x: hidden; cursor: none; }
+    body.lang-zh { font-family: 'Noto Sans SC', sans-serif; }
+    body.lang-en { font-family: var(--font-display), sans-serif; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(2rem, 5vw, 4rem); }
+
+    /* Scroll Progress */
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent-dark); z-index: 9999; transform-origin: left; transform: scaleX(0); }
+
+    /* No floating decorations */
+    .bg-decoration { display: none; }
+
+    /* Top Bar */
+    .top-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 101; background: var(--bg-white); border-bottom: 1px solid var(--border-light); padding: 0.5rem 0; }
+    .top-bar-inner { display: flex; justify-content: flex-end; align-items: center; }
+    .lang-switcher { display: flex; gap: 0; }
+    .lang-btn { padding: 0.4rem 0.75rem; border: none; background: transparent; color: var(--text-muted); font-size: 0.7rem; font-family: var(--font-display); font-weight: 400; cursor: pointer; transition: color 0.3s ease; letter-spacing: 0.08em; }
+    .lang-btn.active { color: var(--text-primary); }
+    .lang-btn:hover:not(.active) { color: var(--text-secondary); }
+
+    /* Header */
+    header { position: fixed; top: 40px; left: 0; right: 0; z-index: 100; padding: 1.5rem 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); transition: all 0.4s var(--ease-out-expo); border-bottom: 1px solid transparent; }
+    header.scrolled { border-bottom-color: var(--border-light); }
+    .nav { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .logo-mark { 
+      width: 50px; height: 45px;
+      display: flex; align-items: center; justify-content: center; 
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    .logo-mark svg { width: 100%; height: 100%; }
+    .logo-mark .logo-line, .logo-mark .logo-frame, .logo-mark .logo-infinity { transition: all 0.4s ease; }
+    .logo:hover .logo-mark { transform: scale(1.05); }
+    .logo:hover .logo-line { stroke: var(--accent-gold); }
+    .logo:hover .logo-frame { stroke: var(--accent-gold); opacity: 0.8; }
+    .logo:hover .logo-infinity { stroke: var(--accent-dark); opacity: 1; }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-main { font-family: var(--font-display); font-size: 1rem; font-weight: 500; letter-spacing: 0.15em; color: var(--text-primary); text-transform: uppercase; }
+    .logo-sub { font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; font-family: var(--font-display); }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links a { font-size: 0.75rem; color: var(--text-secondary); text-decoration: none; font-family: var(--font-display); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease; }
+    .nav-links a:not(.nav-cta):hover { color: var(--text-primary); }
+    .nav-cta { padding: 0.7rem 1.5rem; background: var(--accent-dark); color: white !important; font-weight: 400; transition: all 0.3s ease; }
+    .nav-cta:hover { background: var(--accent-gold); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 12rem 0 8rem; background: var(--bg-white); position: relative; }
+    .hero-content { text-align: center; max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge { 
+      display: inline-block; 
+      padding: 0.5rem 1.25rem; background: transparent; 
+      border: 1px solid var(--border-medium);
+      font-size: 0.7rem; color: var(--text-muted); 
+      margin-bottom: 2.5rem; font-family: var(--font-display); font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      animation: fadeUp 0.8s var(--ease-out-expo) 0.1s both;
+    }
+    .hero-title { 
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); 
+      font-weight: 300; line-height: 1.2; margin-bottom: 1.5rem; 
+      letter-spacing: 0.05em; color: var(--text-primary);
+      animation: fadeUp 0.8s var(--ease-out-expo) 0.2s both;
+    }
+    .hero-title span { color: var(--accent-gold); font-weight: 400; }
+    .hero-lead { 
+      font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 3rem; 
+      line-height: 2; animation: fadeUp 0.8s var(--ease-out-expo) 0.3s both;
+      letter-spacing: 0.05em;
+    }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s var(--ease-out-expo) 0.4s both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .btn-primary { 
+      display: inline-flex; align-items: center; gap: 0.5rem; 
+      padding: 1rem 2rem; background: var(--accent-dark); 
+      color: white; font-size: 0.75rem; font-weight: 400; 
+      border: none; cursor: pointer; 
+      transition: all 0.3s var(--ease-out-expo); 
+      text-decoration: none; font-family: var(--font-display);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: left 0.5s; }
+    .btn-primary:hover { background: var(--accent-gold); }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-secondary { 
+      display: inline-flex; align-items: center; gap: 0.5rem; 
+      padding: 1rem 2rem; background: transparent; 
+      color: var(--text-primary); font-size: 0.75rem; font-weight: 400;
+      border: 1px solid var(--border-medium); 
+      cursor: pointer; transition: all 0.3s ease; text-decoration: none; 
+      font-family: var(--font-display);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .btn-secondary:hover { border-color: var(--accent-dark); background: var(--accent-dark); color: white; }
+
+    /* Sections */
+    section { padding: 6rem 0; }
+    .section-light { background: var(--bg-white); }
+    .section-subtle { background: var(--bg-light); }
+    .section-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .section-kicker { font-family: var(--font-display); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 1rem; }
+    .section-title { font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.02em; color: var(--text-primary); }
+    .section-lead { font-size: 1rem; color: var(--text-secondary); line-height: 1.8; }
+
+    /* Philosophy Section - Brush Style */
+    .philosophy-content { text-align: center; max-width: 800px; margin: 0 auto; padding: 3rem 0; }
+    .philosophy-kicker { font-family: var(--font-display); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 2.5rem; }
+    .philosophy-brush { margin-bottom: 2.5rem; position: relative; padding: 1rem 0; }
+    .brush-text { display: block; font-family: 'Shippori Mincho', serif; font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 500; color: var(--text-primary); letter-spacing: 0.15em; line-height: 1.8; }
+    .brush-text.accent { color: var(--accent-gold); }
+    .philosophy-lead { font-size: 0.9rem; color: var(--text-secondary); line-height: 2.2; max-width: 550px; margin: 0 auto; }
+
+    /* 8V Grid */
+    .v-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .v-card { 
+      position: relative; padding: 2rem; 
+      background: var(--bg-white); 
+      border: 1px solid var(--border-light); 
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    .v-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent-gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-out-expo); }
+    .v-card:hover { 
+      border-color: var(--border-medium); 
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+    }
+    .v-card:hover::before { transform: scaleX(1); }
+    .v-card-number { 
+      display: inline-block; 
+      font-family: var(--font-display); font-size: 0.65rem; font-weight: 400; 
+      color: var(--accent-gold); letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+    }
+    .v-card-word { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.35rem; letter-spacing: 0.05em; }
+    .v-card-ja { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 400; letter-spacing: 0.1em; }
+    .v-card-body { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; }
+
+    /* Business Cards */
+    .business-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .business-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .business-card { 
+      position: relative; padding: 2rem; 
+      background: var(--bg-white); 
+      border: 1px solid var(--border-light); 
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    .business-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent-gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-out-expo); }
+    .business-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); border-color: var(--border-medium); }
+    .business-card:hover::before { transform: scaleX(1); }
+    .business-card-badge { 
+      display: inline-block; padding: 0.25rem 0.6rem; 
+      background: transparent; border: 1px solid var(--accent-gold);
+      font-size: 0.6rem; color: var(--accent-gold); margin-bottom: 1.25rem; 
+      text-transform: uppercase; letter-spacing: 0.15em; 
+      font-family: var(--font-display); font-weight: 400;
+    }
+    .business-card-title { font-family: var(--font-display); font-size: 1rem; font-weight: 500; margin-bottom: 0.35rem; letter-spacing: 0.05em; color: var(--text-primary); }
+    .business-card-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.05em; }
+    .business-card-body { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.8; }
+    .business-card-link { 
+      display: inline-flex; align-items: center; gap: 0.5rem; 
+      color: var(--text-primary); font-size: 0.7rem; text-decoration: none; 
+      font-family: var(--font-display); font-weight: 400; letter-spacing: 0.1em;
+      text-transform: uppercase; transition: all 0.3s ease;
+    }
+    .business-card-link:hover { color: var(--accent-gold); gap: 0.75rem; }
+
+    /* Company Info */
+    .company-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .company-info { background: var(--bg-white); border: 1px solid var(--border-light); padding: 2.5rem; }
+    .company-info h3 { font-family: var(--font-display); font-size: 0.65rem; font-weight: 400; color: var(--accent-gold); margin-bottom: 2rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .info-table { width: 100%; }
+    .info-table tr { border-bottom: 1px solid var(--border-light); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table th, .info-table td { padding: 1rem 0; text-align: left; font-size: 0.9rem; }
+    .info-table th { color: var(--text-muted); font-weight: 400; width: 30%; }
+    .info-table td { color: var(--text-primary); }
+    .company-message { background: var(--bg-white); border: 1px solid var(--border-light); padding: 2.5rem; display: flex; flex-direction: column; position: relative; }
+    .company-message::before { content: '"'; position: absolute; top: 1.5rem; left: 2rem; font-family: Georgia, serif; font-size: 4rem; color: var(--accent-gold); opacity: 0.3; line-height: 1; }
+    .message-quote { font-size: 1rem; line-height: 1.9; margin-bottom: 1rem; color: var(--text-secondary); position: relative; z-index: 1; }
+    .message-quote:first-child { font-weight: 500; color: var(--text-primary); }
+    .message-quote:last-of-type { margin-bottom: 1.5rem; }
+    .message-author { display: flex; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light); }
+    .message-avatar { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 600; color: white; font-size: 0.75rem; }
+    .message-name { font-size: 0.9rem; font-weight: 600; font-family: var(--font-display); color: var(--text-primary); }
+    .message-title { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Contact */
+    .contact-card { background: var(--bg-white); border: 1px solid var(--border-light); padding: 3.5rem; text-align: center; max-width: 500px; margin: 0 auto; }
+    .contact-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .contact-card p { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 0.85rem; }
+    .contact-methods { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* Recruit */
+    .recruit-content { max-width: 900px; margin: 0 auto; }
+    .recruit-message { text-align: center; margin-bottom: 3.5rem; }
+    .recruit-message p { font-size: 0.9rem; color: var(--text-secondary); line-height: 2.2; }
+    .recruit-positions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .position-card { background: var(--bg-white); border: 1px solid var(--border-light); padding: 2rem; transition: all 0.4s var(--ease-out-expo); }
+    .position-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent-gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-out-expo); }
+    .position-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); }
+    .position-badge { display: inline-block; padding: 0.25rem 0.6rem; background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.6rem; font-family: var(--font-display); font-weight: 400; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .position-badge.secondary { border-color: var(--text-muted); color: var(--text-muted); }
+    .position-card h4 { font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-primary); letter-spacing: 0.05em; }
+    .position-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; }
+    .recruit-cta { text-align: center; }
+
+    /* Footer */
+    footer { padding: 3rem 0; border-top: 1px solid var(--border-light); background: var(--bg-white); }
+
+    /* History Timeline */
+    .history-section { margin-top: 5rem; }
+    .history-header { text-align: center; margin-bottom: 3rem; }
+    .history-header h3 { font-family: var(--font-display); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 0.75rem; }
+    .history-header h4 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 300; letter-spacing: 0.1em; color: var(--text-primary); }
+    .timeline { position: relative; max-width: 700px; margin: 0 auto; padding: 2rem 0; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--accent-gold) 20%, var(--accent-gold) 80%, transparent); transform: translateX(-50%); }
+    .timeline-item { position: relative; display: flex; align-items: flex-start; margin-bottom: 3rem; cursor: pointer; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item:nth-child(odd) { flex-direction: row; }
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+    .timeline-year { flex: 1; text-align: right; padding-right: 3rem; transition: transform 0.4s var(--ease-out-expo); }
+    .timeline-item:nth-child(even) .timeline-year { text-align: left; padding-right: 0; padding-left: 3rem; }
+    .timeline-year span { font-family: var(--font-display); font-size: 1.5rem; font-weight: 300; color: var(--accent-gold); letter-spacing: 0.1em; transition: all 0.4s ease; }
+    .timeline-item:hover .timeline-year span { font-size: 1.8rem; color: var(--text-primary); }
+    .timeline-dot { position: absolute; left: 50%; top: 0.5rem; width: 12px; height: 12px; background: var(--bg-white); border: 2px solid var(--accent-gold); border-radius: 50%; transform: translateX(-50%); z-index: 1; transition: all 0.4s var(--ease-out-expo); }
+    .timeline-dot::before { content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: var(--accent-gold); border-radius: 50%; transform: translate(-50%, -50%) scale(0); transition: transform 0.3s ease; }
+    .timeline-item:hover .timeline-dot { transform: translateX(-50%) scale(1.3); border-color: var(--text-primary); }
+    .timeline-item:hover .timeline-dot::before { transform: translate(-50%, -50%) scale(1); background: var(--text-primary); }
+    .timeline-content { flex: 1; padding-left: 3rem; transition: transform 0.4s var(--ease-out-expo); }
+    .timeline-item:nth-child(even) .timeline-content { padding-left: 0; padding-right: 3rem; text-align: right; }
+    .timeline-item:hover .timeline-content { transform: translateX(5px); }
+    .timeline-item:nth-child(even):hover .timeline-content { transform: translateX(-5px); }
+    .timeline-content h5 { font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.35rem; letter-spacing: 0.05em; transition: color 0.3s ease; }
+    .timeline-item:hover .timeline-content h5 { color: var(--accent-gold); }
+    .timeline-content p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; }
+    .timeline-future .timeline-year span { font-size: 2rem; opacity: 0.4; }
+    .timeline-future .timeline-dot { border-style: dashed; animation: pulse-dot 2s ease-in-out infinite; }
+    .timeline-future .timeline-content h5 { font-style: italic; opacity: 0.7; }
+    .timeline-future .timeline-content p { opacity: 0.6; }
+    @keyframes pulse-dot { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.2); } }
+    .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { display: flex; align-items: center; gap: 0.75rem; }
+    .footer-logo-mark { width: 36px; height: 32px; display: flex; align-items: center; justify-content: center; }
+    .footer-logo-mark svg { width: 100%; height: 100%; }
+    .footer-logo-text { font-family: var(--font-display); font-size: 0.8rem; font-weight: 400; color: var(--text-primary); letter-spacing: 0.1em; text-transform: uppercase; }
+    .footer-copy { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-display); letter-spacing: 0.05em; }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-size: 0.7rem; color: var(--text-muted); text-decoration: none; font-family: var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    /* Animations */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s var(--ease-out-expo); }
+    .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; }
+    .stagger-children.visible > *:nth-child(2) { transition-delay: 0.08s; }
+    .stagger-children.visible > *:nth-child(3) { transition-delay: 0.16s; }
+    .stagger-children.visible > *:nth-child(4) { transition-delay: 0.24s; }
+    .stagger-children.visible > *:nth-child(5) { transition-delay: 0.32s; }
+    .stagger-children.visible > *:nth-child(6) { transition-delay: 0.4s; }
+    .stagger-children.visible > *:nth-child(7) { transition-delay: 0.48s; }
+    .stagger-children.visible > *:nth-child(8) { transition-delay: 0.56s; }
+    .stagger-children.visible > * { opacity: 1; transform: translateY(0); }
+    
+    /* Slide In Animations */
+    .slide-in-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s var(--ease-out-expo); }
+    .slide-in-right { opacity: 0; transform: translateX(50px); transition: all 0.8s var(--ease-out-expo); }
+    .slide-in-left.visible, .slide-in-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .v-grid { grid-template-columns: repeat(2, 1fr); }
+      .business-grid, .company-grid { grid-template-columns: 1fr; }
+      .business-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .recruit-positions { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { position: fixed; top: 0; right: 0; bottom: 0; width: 280px; flex-direction: column; padding: 6rem 2rem 2rem; background: var(--bg-white); border-left: 1px solid var(--border-light); transform: translateX(100%); transition: transform 0.4s var(--ease-out-expo); gap: 1.5rem; z-index: 100; }
+      .nav-links.open { transform: translateX(0); }
+      .nav-toggle { display: block; z-index: 101; }
+      .hero { padding: 8rem 0 4rem; }
+      .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
+      .v-grid { gap: 1rem; }
+      .v-card { padding: 1.25rem; }
+      .business-grid-4 { grid-template-columns: 1fr; }
+      .recruit-positions { grid-template-columns: 1fr; }
+      .brush-text { font-size: clamp(1.5rem, 6vw, 2.5rem); }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="bg-decoration">
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-inner">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="ja">JP</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中文</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="#philosophy" class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 55 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect class="logo-frame" x="1" y="1" width="53" height="48" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.5"/>
+              <line class="logo-line" x1="11" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+              <line class="logo-line" x1="14" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+              <line class="logo-line" x1="17" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+              <line class="logo-line" x1="20" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+              <line class="logo-line" x1="35" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+              <line class="logo-line" x1="38" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+              <line class="logo-line" x1="41" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+              <line class="logo-line" x1="44" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+              <path class="logo-infinity" d="M17 36 C17 31, 22 29, 27.5 36 C33 29, 38 31, 38 36 C38 41, 33 43, 27.5 36 C22 43, 17 41, 17 36" stroke="#9a8256" stroke-width="1" fill="none" opacity="0.75"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-main">V8 Corporation</span>
+            <span class="logo-sub">Eight Values</span>
+          </div>
+        </a>
+        <div class="nav-links" id="navLinks">
+          <a href="#philosophy" data-i18n="navPhilo">Philosophy</a>
+          <a href="#values" data-i18n="nav8V">8 Values</a>
+          <a href="#business" data-i18n="navBusiness">Business</a>
+          <a href="#company" data-i18n="navCompany">Company</a>
+          <a href="#recruit" data-i18n="navRecruit">Recruit</a>
+          <a href="#contact" class="nav-cta" data-i18n="navContact">Contact</a>
+        </div>
+        <button class="nav-toggle" id="navToggle">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge" data-i18n="heroBadge">Eight Values, One Vision</div>
+          <h1 class="hero-title">
+            <span>V8</span> Corporation
+          </h1>
+          <p class="hero-lead" data-i18n="heroLead">Vision・Value・Venture・Victory・Vitality・Vanguard・Velocity・Voice<br>8つの「V」を軸に、不動産の新しい可能性を追求します。</p>
+          <div class="hero-buttons">
+            <a href="#business" class="btn-primary" data-i18n="btnBusiness">事業内容 →</a>
+            <a href="#contact" class="btn-secondary" data-i18n="btnContact">お問い合わせ</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Philosophy / Mission -->
+    <section id="philosophy" class="section-subtle">
+      <div class="container">
+        <div class="philosophy-content reveal">
+          <div class="philosophy-kicker">Our Philosophy</div>
+          <div class="philosophy-brush">
+            <span class="brush-text">将来の不安を</span>
+            <span class="brush-text accent">将来の安心へ</span>
+          </div>
+          <p class="philosophy-lead" data-i18n="philoLead">私たちは、お客様が抱える「将来への不安」を「確かな安心」に変えることを使命としています。不動産を通じて、一人ひとりの未来に寄り添います。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8V Section -->
+    <section id="values" class="section-light">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-kicker">Our Values</div>
+          <h2 class="section-title" data-i18n="valuesTitle">8つのVが、私たちの指針</h2>
+          <p class="section-lead" data-i18n="valuesLead">すべての行動は、この8つの価値観から生まれます。</p>
+        </div>
+        <div class="v-grid stagger-children">
+          <div class="v-card">
+            <span class="v-card-number">01</span>
+            <div class="v-card-word">Vision</div>
+            <div class="v-card-ja" data-i18n="v1ja">先見性</div>
+            <p class="v-card-body" data-i18n="v1body">業界の未来を見据え、常に一歩先を行く視点で事業を展開します。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">02</span>
+            <div class="v-card-word">Value</div>
+            <div class="v-card-ja" data-i18n="v2ja">価値創造</div>
+            <p class="v-card-body" data-i18n="v2body">すべてのステークホルダーに価値を提供します。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">03</span>
+            <div class="v-card-word">Venture</div>
+            <div class="v-card-ja" data-i18n="v3ja">挑戦</div>
+            <p class="v-card-body" data-i18n="v3body">新しいことに果敢に挑戦し続けます。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">04</span>
+            <div class="v-card-word">Victory</div>
+            <div class="v-card-ja" data-i18n="v4ja">成功</div>
+            <p class="v-card-body" data-i18n="v4body">お客様の成功を自らの勝利とします。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">05</span>
+            <div class="v-card-word">Vitality</div>
+            <div class="v-card-ja" data-i18n="v5ja">活力</div>
+            <p class="v-card-body" data-i18n="v5body">情熱を持って仕事に取り組みます。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">06</span>
+            <div class="v-card-word">Vanguard</div>
+            <div class="v-card-ja" data-i18n="v6ja">先駆者</div>
+            <p class="v-card-body" data-i18n="v6body">業界の先頭に立ち、新しい道を切り拓きます。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">07</span>
+            <div class="v-card-word">Velocity</div>
+            <div class="v-card-ja" data-i18n="v7ja">スピード</div>
+            <p class="v-card-body" data-i18n="v7body">迅速な対応でチャンスを逃しません。</p>
+          </div>
+          <div class="v-card">
+            <span class="v-card-number">08</span>
+            <div class="v-card-word">Voice</div>
+            <div class="v-card-ja" data-i18n="v8ja">傾聴</div>
+            <p class="v-card-body" data-i18n="v8body">お客様の声に真摯に耳を傾けます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Business -->
+    <section id="business" class="section-subtle">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-kicker">Business</div>
+          <h2 class="section-title" data-i18n="bizTitle">事業内容</h2>
+          <p class="section-lead" data-i18n="bizLead">専門性と情熱を持って、お客様の多様なニーズにお応えします。</p>
+        </div>
+        <div class="business-grid-4 stagger-children">
+          <div class="business-card">
+            <span class="business-card-badge">Salon</span>
+            <h3 class="business-card-title">salonX</h3>
+            <p class="business-card-subtitle" data-i18n="biz1sub">美容師専門 店舗仲介</p>
+            <p class="business-card-body" data-i18n="biz1body">美容師資格を持つ宅建士が、サロン開業・移転・居抜き売却をトータルサポート。釣り物件ゼロ宣言。</p>
+            <a href="salonx-complete.html" class="business-card-link" data-i18n="biz1link">詳しく見る →</a>
+          </div>
+          <div class="business-card">
+            <span class="business-card-badge">Consulting</span>
+            <h3 class="business-card-title" data-i18n="biz2title">美容事業コンサル</h3>
+            <p class="business-card-subtitle" data-i18n="biz2sub">サロン経営支援</p>
+            <p class="business-card-body" data-i18n="biz2body">開業準備から経営改善まで、美容業界に特化したコンサルティング。集客・採用・収益改善をサポート。</p>
+            <a href="#contact" class="business-card-link" data-i18n="biz2link">お問い合わせ →</a>
+          </div>
+          <div class="business-card">
+            <span class="business-card-badge">Design</span>
+            <h3 class="business-card-title" data-i18n="biz3title">HPデザイン制作</h3>
+            <p class="business-card-subtitle" data-i18n="biz3sub">Webサイト制作</p>
+            <p class="business-card-body" data-i18n="biz3body">サロン・店舗に特化したホームページ制作。集客に強いデザインで、お客様のビジネスを加速させます。</p>
+            <a href="#contact" class="business-card-link" data-i18n="biz3link">お問い合わせ →</a>
+          </div>
+          <div class="business-card">
+            <span class="business-card-badge">Subscription</span>
+            <h3 class="business-card-title" data-i18n="biz4title">不動産サブスク</h3>
+            <p class="business-card-subtitle" data-i18n="biz4sub">居住用・投資用物件探し</p>
+            <p class="business-card-body" data-i18n="biz4body">月額制で理想の物件を探し放題。居住用から投資用まで、プロが厳選した物件情報をお届けします。</p>
+            <a href="#contact" class="business-card-link" data-i18n="biz4link">お問い合わせ →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company -->
+    <section id="company" class="section-light">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-kicker">Company</div>
+          <h2 class="section-title" data-i18n="compTitle">会社概要</h2>
+        </div>
+        <div class="company-grid">
+          <div class="company-info slide-in-left">
+            <h3 data-i18n="compInfoTitle">Company Information</h3>
+            <table class="info-table">
+              <tr><th data-i18n="compName">会社名</th><td>V8 Corporation</td></tr>
+              <tr><th data-i18n="compCeo">代表</th><td data-i18n="compCeoName">代表取締役 [氏名]</td></tr>
+              <tr><th data-i18n="compEst">設立</th><td data-i18n="compEstDate">2022年</td></tr>
+              <tr><th data-i18n="compAddr">所在地</th><td data-i18n="compAddrText">東京都新宿区 [住所]</td></tr>
+              <tr><th data-i18n="compBiz">事業</th><td data-i18n="compBizText">不動産仲介業 / 店舗コンサルティング</td></tr>
+              <tr><th data-i18n="compLic">免許</th><td data-i18n="compLicText">宅建業 東京都知事(1)第XXXXX号</td></tr>
+            </table>
+          </div>
+          <div class="company-message slide-in-right">
+            <p class="message-quote" data-i18n="msgQuote">「将来の不安を将来の安心へ」── これは私たちV8 Corporationの創業理念であり、すべての行動の原点です。</p>
+            <p class="message-quote" data-i18n="msgQuote2">不動産は、人生で最も大きな決断のひとつ。だからこそ私たちは、単なる物件紹介ではなく、お客様の夢や不安に真摯に向き合い、最適な選択ができるよう全力でサポートいたします。</p>
+            <p class="message-quote" data-i18n="msgQuote3">8つの「V」── Vision、Value、Venture、Victory、Vitality、Vanguard、Velocity、Voice。これらは私たちがお客様にお約束する行動指針です。この想いを胸に、一人ひとりの未来に寄り添ってまいります。</p>
+            <div class="message-author">
+              <div class="message-avatar">CEO</div>
+              <div>
+                <div class="message-name" data-i18n="msgName">代表取締役</div>
+                <div class="message-title">V8 Corporation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- History Timeline -->
+        <div class="history-section reveal">
+          <div class="history-header">
+            <h3>History</h3>
+            <h4 data-i18n="historyTitle">沿革</h4>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-year"><span>2022</span></div>
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5 data-i18n="hist2022title">会社設立</h5>
+                <p data-i18n="hist2022body">V8 Corporation設立。資本金600万円。</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year"><span>2025</span></div>
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5 data-i18n="hist2025title">不動産事業参入</h5>
+                <p data-i18n="hist2025body">宅地建物取引業免許を取得し、不動産仲介事業を開始。</p>
+              </div>
+            </div>
+            <div class="timeline-item timeline-future">
+              <div class="timeline-year"><span>∞</span></div>
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5 data-i18n="histFuturetitle">The Future</h5>
+                <p data-i18n="histFuturebody">あなたと共に、次の歴史を刻む。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="recruit" class="section-light">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-kicker">Recruit</div>
+          <h2 class="section-title" data-i18n="recruitTitle">採用情報</h2>
+          <p class="section-lead" data-i18n="recruitLead">私たちと一緒に、不動産の未来を創りませんか。</p>
+        </div>
+        <div class="recruit-content reveal">
+          <div class="recruit-message">
+            <p data-i18n="recruitMsg">V8 Corporationでは、「将来の不安を将来の安心へ」という理念に共感し、お客様の未来に寄り添える仲間を募集しています。経験よりも、情熱と誠実さを大切にしています。</p>
+          </div>
+          <div class="recruit-positions">
+            <div class="position-card">
+              <span class="position-badge" data-i18n="posBadge1">積極採用中</span>
+              <h4 data-i18n="posTitle1">不動産営業</h4>
+              <p data-i18n="posDesc1">店舗物件の仲介営業。美容業界に興味のある方歓迎。</p>
+            </div>
+            <div class="position-card">
+              <span class="position-badge" data-i18n="posBadge2">募集中</span>
+              <h4 data-i18n="posTitle2">Webデザイナー</h4>
+              <p data-i18n="posDesc2">クライアント向けWebサイト制作。リモート可。</p>
+            </div>
+            <div class="position-card">
+              <span class="position-badge secondary" data-i18n="posBadge3">準備中</span>
+              <h4 data-i18n="posTitle3">コンサルタント</h4>
+              <p data-i18n="posDesc3">美容サロン経営支援。業界経験者優遇。</p>
+            </div>
+          </div>
+          <div class="recruit-cta">
+            <a href="#contact" class="btn-primary" data-i18n="recruitCta">採用について問い合わせる →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-subtle">
+      <div class="container">
+        <div class="contact-card reveal">
+          <h3 data-i18n="ctaTitle">お問い合わせ</h3>
+          <p data-i18n="ctaText">事業に関するご相談、その他お問い合わせはこちらから。</p>
+          <div class="contact-methods">
+            <a href="/cdn-cgi/l/email-protection#066f68606946703e2b65697476697467726f69682865696b" class="btn-primary">✉️ <span data-i18n="ctaEmail">メールで問い合わせ</span></a>
+            <a href="salonx-complete.html" class="btn-secondary" data-i18n="ctaSalon">salonXへ →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">
+            <svg viewBox="0 0 55 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="53" height="48" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.5"/>
+              <line x1="11" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+              <line x1="14" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+              <line x1="17" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+              <line x1="20" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+              <line x1="35" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+              <line x1="38" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+              <line x1="41" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+              <line x1="44" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+              <path d="M17 36 C17 31, 22 29, 27.5 36 C33 29, 38 31, 38 36 C38 41, 33 43, 27.5 36 C22 43, 17 41, 17 36" stroke="#9a8256" stroke-width="1" fill="none" opacity="0.75"/>
+            </svg>
+          </div>
+          <span class="footer-logo-text">V8 Corporation</span>
+        </div>
+        <div class="footer-links">
+          <a href="#philosophy" data-i18n="footPhilo">Philosophy</a>
+          <a href="#values">8 Values</a>
+          <a href="#business">Business</a>
+          <a href="#company">Company</a>
+          <a href="#recruit" data-i18n="footRecruit">Recruit</a>
+          <a href="salonx-complete.html">salonX</a>
+        </div>
+        <div class="footer-copy">© <span id="year"></span> V8 Corporation</div>
+      </div>
+    </div>
+  </footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const translations = {
+  ja: {
+    navPhilo: "理念", nav8V: "8つのV", navBusiness: "事業内容", navCompany: "会社概要", navRecruit: "採用情報", navContact: "お問い合わせ",
+    heroBadge: "Eight Values, One Vision",
+    heroLead: "Vision・Value・Venture・Victory・Vitality・Vanguard・Velocity・Voice<br>8つの「V」を軸に、不動産の新しい可能性を追求します。",
+    btnBusiness: "事業内容 →", btnContact: "お問い合わせ",
+    valuesTitle: "8つのVが、私たちの指針", valuesLead: "すべての行動は、この8つの価値観から生まれます。",
+    v1ja: "先見性", v1body: "業界の未来を見据え、常に一歩先を行く視点で事業を展開します。",
+    v2ja: "価値創造", v2body: "すべてのステークホルダーに価値を提供します。",
+    v3ja: "挑戦", v3body: "新しいことに果敢に挑戦し続けます。",
+    v4ja: "成功", v4body: "お客様の成功を自らの勝利とします。",
+    v5ja: "活力", v5body: "情熱を持って仕事に取り組みます。",
+    v6ja: "先駆者", v6body: "業界の先頭に立ち、新しい道を切り拓きます。",
+    v7ja: "スピード", v7body: "迅速な対応でチャンスを逃しません。",
+    v8ja: "傾聴", v8body: "お客様の声に真摯に耳を傾けます。",
+    bizTitle: "事業内容", bizLead: "専門性と情熱を持って、お客様の多様なニーズにお応えします。",
+    biz1sub: "美容師専門 店舗仲介",
+    biz1body: "美容師資格を持つ宅建士が、サロン開業・移転・居抜き売却をトータルサポート。釣り物件ゼロ宣言。",
+    biz1link: "詳しく見る →",
+    biz2title: "美容事業コンサル", biz2sub: "サロン経営支援",
+    biz2body: "開業準備から経営改善まで、美容業界に特化したコンサルティング。集客・採用・収益改善をサポート。",
+    biz2link: "お問い合わせ →",
+    biz3title: "HPデザイン制作", biz3sub: "Webサイト制作",
+    biz3body: "サロン・店舗に特化したホームページ制作。集客に強いデザインで、お客様のビジネスを加速させます。",
+    biz3link: "お問い合わせ →",
+    biz4title: "不動産サブスク", biz4sub: "居住用・投資用物件探し",
+    biz4body: "月額制で理想の物件を探し放題。居住用から投資用まで、プロが厳選した物件情報をお届けします。",
+    biz4link: "お問い合わせ →",
+    philoLead: "私たちは、お客様が抱える「将来への不安」を「確かな安心」に変えることを使命としています。不動産を通じて、一人ひとりの未来に寄り添います。",
+    compTitle: "会社概要", compInfoTitle: "Company Information",
+    compName: "会社名", compCeo: "代表", compCeoName: "代表取締役 [氏名]",
+    compEst: "設立", compEstDate: "2022年", compAddr: "所在地", compAddrText: "東京都新宿区 [住所]",
+    compBiz: "事業", compBizText: "不動産仲介業 / 店舗コンサルティング",
+    compLic: "免許", compLicText: "宅建業 東京都知事(1)第XXXXX号",
+    msgQuote: "「将来の不安を将来の安心へ」── これは私たちV8 Corporationの創業理念であり、すべての行動の原点です。",
+    msgQuote2: "不動産は、人生で最も大きな決断のひとつ。だからこそ私たちは、単なる物件紹介ではなく、お客様の夢や不安に真摯に向き合い、最適な選択ができるよう全力でサポートいたします。",
+    msgQuote3: "8つの「V」── Vision、Value、Venture、Victory、Vitality、Vanguard、Velocity、Voice。これらは私たちがお客様にお約束する行動指針です。この想いを胸に、一人ひとりの未来に寄り添ってまいります。",
+    msgName: "代表取締役",
+    ctaTitle: "お問い合わせ", ctaText: "事業に関するご相談、その他お問い合わせはこちらから。",
+    ctaEmail: "メールで問い合わせ", ctaSalon: "salonXへ →",
+    recruitTitle: "採用情報", recruitLead: "私たちと一緒に、不動産の未来を創りませんか。",
+    recruitMsg: "V8 Corporationでは、「将来の不安を将来の安心へ」という理念に共感し、お客様の未来に寄り添える仲間を募集しています。経験よりも、情熱と誠実さを大切にしています。",
+    posBadge1: "積極採用中", posTitle1: "不動産営業", posDesc1: "店舗物件の仲介営業。美容業界に興味のある方歓迎。",
+    posBadge2: "募集中", posTitle2: "Webデザイナー", posDesc2: "クライアント向けWebサイト制作。リモート可。",
+    posBadge3: "準備中", posTitle3: "コンサルタント", posDesc3: "美容サロン経営支援。業界経験者優遇。",
+    recruitCta: "採用について問い合わせる →",
+    foot8V: "8つのV", footBiz: "事業内容", footComp: "会社概要", footPhilo: "理念", footRecruit: "採用情報"
+  },
+  en: {
+    navPhilo: "Philosophy", nav8V: "8 Values", navBusiness: "Business", navCompany: "Company", navRecruit: "Careers", navContact: "Contact",
+    heroBadge: "Eight Values, One Vision",
+    heroLead: "Vision・Value・Venture・Victory・Vitality・Vanguard・Velocity・Voice<br>Creating new possibilities in real estate with our 8 core values.",
+    btnBusiness: "Our Business →", btnContact: "Contact Us",
+    valuesTitle: "Our 8 Values Guide Everything", valuesLead: "Every action stems from these eight principles.",
+    v1ja: "Foresight", v1body: "We develop our business with a forward-looking perspective.",
+    v2ja: "Creation", v2body: "We deliver value to all stakeholders.",
+    v3ja: "Challenge", v3body: "We boldly challenge new frontiers.",
+    v4ja: "Success", v4body: "Your success is our victory.",
+    v5ja: "Energy", v5body: "We work with passion and enthusiasm.",
+    v6ja: "Pioneer", v6body: "We lead the industry and pave the way forward.",
+    v7ja: "Speed", v7body: "Quick responses, no missed opportunities.",
+    v8ja: "Listening", v8body: "We listen sincerely to our clients.",
+    bizTitle: "Business", bizLead: "Meeting diverse needs with expertise and passion.",
+    biz1sub: "Salon Real Estate",
+    biz1body: "Total support for salon openings by licensed realtors who are also stylists. Zero fake listings.",
+    biz1link: "Learn More →",
+    biz2title: "Beauty Consulting", biz2sub: "Salon Management",
+    biz2body: "Consulting specialized in beauty industry. From startup to management improvement.",
+    biz2link: "Contact Us →",
+    biz3title: "Web Design", biz3sub: "Website Creation",
+    biz3body: "Websites specialized for salons and stores. Designs that drive customer acquisition.",
+    biz3link: "Contact Us →",
+    biz4title: "Property Subscription", biz4sub: "Residential & Investment",
+    biz4body: "Monthly subscription for unlimited property search. From residential to investment properties.",
+    biz4link: "Contact Us →",
+    philoLead: "Our mission is to transform your 'future anxieties' into 'future security'. Through real estate, we walk alongside each person's tomorrow.",
+    compTitle: "Company", compInfoTitle: "Company Information",
+    compName: "Company", compCeo: "CEO", compCeoName: "CEO [Name]",
+    compEst: "Founded", compEstDate: "2024", compAddr: "Address", compAddrText: "Shinjuku, Tokyo",
+    compBiz: "Business", compBizText: "Real Estate / Consulting",
+    compLic: "License", compLicText: "Real Estate License Tokyo",
+    msgQuote: "\"From future anxieties to future security\" — This is the founding philosophy of V8 Corporation and the origin of everything we do.",
+    msgQuote2: "Real estate is one of life's biggest decisions. That's why we don't just introduce properties — we sincerely address your dreams and concerns, and do our best to help you make the optimal choice.",
+    msgQuote3: "Our 8 Vs — Vision, Value, Venture, Victory, Vitality, Vanguard, Velocity, Voice — are our promise to you. With these principles at heart, we walk alongside each person's future.",
+    msgName: "CEO",
+    ctaTitle: "Contact Us", ctaText: "For business inquiries and other questions.",
+    ctaEmail: "Email Us", ctaSalon: "Visit salonX →",
+    recruitTitle: "Careers", recruitLead: "Join us in creating the future of real estate.",
+    recruitMsg: "We are looking for team members who share our philosophy of transforming 'future anxieties' into 'future security'. We value passion and integrity over experience.",
+    posBadge1: "Hiring", posTitle1: "Real Estate Sales", posDesc1: "Commercial property brokerage. Interest in beauty industry welcome.",
+    posBadge2: "Open", posTitle2: "Web Designer", posDesc2: "Website creation for clients. Remote work available.",
+    posBadge3: "Coming", posTitle3: "Consultant", posDesc3: "Beauty salon management support. Industry experience preferred.",
+    recruitCta: "Inquire About Careers →",
+    foot8V: "8 Values", footBiz: "Business", footComp: "Company", footPhilo: "Philosophy", footRecruit: "Careers"
+  },
+  zh: {
+    navPhilo: "理念", nav8V: "8个V", navBusiness: "业务", navCompany: "公司", navRecruit: "招聘", navContact: "联系",
+    heroBadge: "Eight Values, One Vision",
+    heroLead: "Vision・Value・Venture・Victory・Vitality・Vanguard・Velocity・Voice<br>以8个「V」为核心，追求不动产的新可能。",
+    btnBusiness: "业务内容 →", btnContact: "联系我们",
+    valuesTitle: "8个V，我们的指南", valuesLead: "所有行动都源于这8个价值观。",
+    v1ja: "远见", v1body: "着眼未来，始终领先一步。",
+    v2ja: "价值", v2body: "为所有相关方创造价值。",
+    v3ja: "挑战", v3body: "勇于挑战新事物。",
+    v4ja: "成功", v4body: "客户的成功就是我们的胜利。",
+    v5ja: "活力", v5body: "充满热情地工作。",
+    v6ja: "先驱", v6body: "引领行业，开辟新道路。",
+    v7ja: "速度", v7body: "快速响应，不错过机会。",
+    v8ja: "倾听", v8body: "真诚倾听客户的声音。",
+    bizTitle: "业务", bizLead: "以专业和热情满足多样化需求。",
+    biz1sub: "美发师店铺中介",
+    biz1body: "持有美发师资格的房产经纪人全面支持。零虚假房源。",
+    biz1link: "了解详情 →",
+    biz2title: "美容咨询", biz2sub: "沙龙经营支援",
+    biz2body: "专注美容行业的咨询服务。从开业到经营改善。",
+    biz2link: "联系我们 →",
+    biz3title: "网页设计", biz3sub: "网站制作",
+    biz3body: "专注沙龙和店铺的网站制作。助力集客的设计。",
+    biz3link: "联系我们 →",
+    biz4title: "不动产订阅", biz4sub: "居住・投资物件",
+    biz4body: "月费制无限找房。从居住到投资物件应有尽有。",
+    biz4link: "联系我们 →",
+    philoLead: "我们的使命是将您的「未来不安」转化为「未来安心」。通过不动产，陪伴每一个人的明天。",
+    compTitle: "公司概况", compInfoTitle: "公司信息",
+    compName: "公司名", compCeo: "代表", compCeoName: "代表董事 [姓名]",
+    compEst: "成立", compEstDate: "2022年", compAddr: "地址", compAddrText: "东京都新宿区",
+    compBiz: "业务", compBizText: "不动产中介 / 咨询",
+    compLic: "许可证", compLicText: "宅建业 东京都知事许可",
+    msgQuote: "「将未来的不安变为未来的安心」── 这是V8 Corporation的创业理念，也是我们一切行动的原点。",
+    msgQuote2: "不动产是人生中最重大的决定之一。因此，我们不仅仅是介绍房源，而是真诚地面对客户的梦想和担忧，全力支持您做出最佳选择。",
+    msgQuote3: "8个「V」── Vision、Value、Venture、Victory、Vitality、Vanguard、Velocity、Voice。这是我们对客户的承诺。怀着这份信念，我们陪伴每一位客户的未来。",
+    msgName: "代表董事",
+    ctaTitle: "联系我们", ctaText: "业务咨询及其他问题。",
+    ctaEmail: "邮件咨询", ctaSalon: "访问salonX →",
+    recruitTitle: "招聘信息", recruitLead: "与我们一起创造不动产的未来。",
+    recruitMsg: "我们正在寻找认同「将未来的不安变为未来的安心」理念、能够陪伴客户未来的伙伴。我们重视热情和诚信，而非经验。",
+    posBadge1: "热招中", posTitle1: "不动产销售", posDesc1: "店铺物件中介。欢迎对美容行业感兴趣者。",
+    posBadge2: "招募中", posTitle2: "网页设计师", posDesc2: "为客户制作网站。可远程工作。",
+    posBadge3: "筹备中", posTitle3: "顾问", posDesc3: "美容沙龙经营支援。有行业经验者优先。",
+    recruitCta: "咨询招聘信息 →",
+    foot8V: "8个V", footBiz: "业务", footComp: "公司", footPhilo: "理念", footRecruit: "招聘"
+  }
+};
+
+let currentLang = 'ja';
+function setLanguage(lang) {
+  currentLang = lang;
+  document.body.className = lang === 'ja' ? '' : `lang-${lang}`;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (translations[lang][key]) {
+      translations[lang][key].includes('<br>') ? el.innerHTML = translations[lang][key] : el.textContent = translations[lang][key];
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Scroll Progress
+window.addEventListener('scroll', () => {
+  const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  document.getElementById('scrollProgress').style.transform = `scaleX(${progress})`;
+});
+
+// Navigation
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+  navToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+});
+navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  navToggle.textContent = '☰';
+}));
+
+// Header scroll
+window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10));
+
+// Reveal & Slide In
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal, .stagger-children, .slide-in-left, .slide-in-right').forEach(el => revealObserver.observe(el));
+
+// Language
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.getElementById(this.getAttribute('href').slice(1));
+    if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+  });
+});
+
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const cursorFollower = document.getElementById('cursorFollower');
+let mouseX = 0, mouseY = 0;
+let followerX = 0, followerY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+});
+
+function animateFollower() {
+  followerX += (mouseX - followerX) * 0.15;
+  followerY += (mouseY - followerY) * 0.15;
+  cursorFollower.style.left = followerX + 'px';
+  cursorFollower.style.top = followerY + 'px';
+  requestAnimationFrame(animateFollower);
+}
+animateFollower();
+
+// Hover effects for cursor
+const hoverElements = document.querySelectorAll('a, button, .v-card, .business-card, .position-card, .timeline-item');
+hoverElements.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('hover');
+    cursorFollower.classList.add('hover');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('hover');
+    cursorFollower.classList.remove('hover');
+  });
+});
+
+setLanguage('ja');
+</script>
+</body>
+</html>
