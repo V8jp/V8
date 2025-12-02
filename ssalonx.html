@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>salonX | 美容サロン専門不動産</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4a373;
+            --primary-light: #e6c9a8;
+            --primary-dark: #bc8c5f;
+            --accent: #c9a9b8;
+            --accent-dark: #a8879a;
+            --coral: #e8b4a8;
+            --sage: #b5c4b1;
+            --blush: #f5e6e0;
+            --cream: #fdfbf9;
+            --warm-white: #fffcfa;
+            --black: #2d2a26;
+            --charcoal: #3d3a36;
+            --sold-red: #c45c5c;
+            --text-primary: #2d2a26;
+            --text-secondary: #6b6560;
+            --text-muted: #9c9590;
+            --border-light: #ebe6e1;
+            --border-medium: #ddd6cf;
+            --shadow-sm: 0 2px 8px rgba(45, 42, 38, 0.06);
+            --shadow-md: 0 8px 24px rgba(45, 42, 38, 0.08);
+            --shadow-lg: 0 16px 48px rgba(45, 42, 38, 0.1);
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --font-display: 'DM Sans', sans-serif;
+            --font-body: 'Noto Sans JP', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--warm-white); color: var(--text-primary); line-height: 1.75; overflow-x: hidden; }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 3rem); }
+
+        /* Scroll Progress */
+        .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 9999; }
+
+        /* Top Bar */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1001; background: var(--warm-white); border-bottom: 1px solid var(--border-light); padding: 0.5rem 0; }
+        .top-bar-inner { max-width: 1160px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 3rem); display: flex; justify-content: space-between; align-items: center; }
+        .v8-link { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .v8-logo-mark { width: 40px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .v8-logo-mark svg { width: 100%; height: 100%; }
+        .v8-text { font-family: var(--font-display); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.08em; }
+        .lang-switch { display: flex; gap: 2px; background: var(--cream); padding: 3px; border-radius: 10px; }
+        .lang-switch button { padding: 0.4rem 0.8rem; border: none; background: transparent; color: var(--text-muted); font-size: 0.7rem; font-family: var(--font-display); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        .lang-switch button.active { background: var(--warm-white); color: var(--primary-dark); box-shadow: var(--shadow-sm); }
+
+        /* Header */
+        header { position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; padding: 0.875rem 0; background: rgba(255,252,250,0.95); backdrop-filter: blur(16px); transition: all 0.4s var(--ease-out); }
+        header.scrolled { box-shadow: var(--shadow-sm); }
+        .nav { display: flex; align-items: center; justify-content: space-between; }
+        
+        /* Logo */
+        .logo { display: flex; align-items: center; gap: 0.875rem; text-decoration: none; }
+        .logo-mark { width: 46px; height: 46px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .logo-mark svg { width: 100%; height: 100%; }
+        .logo-text { display: flex; flex-direction: column; gap: 0.1rem; }
+        .logo-main { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; color: var(--text-primary); letter-spacing: 0.02em; }
+        .logo-main span { color: var(--primary); }
+        .logo-sub { font-family: var(--font-display); font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+        
+        .nav-links { display: flex; align-items: center; gap: 2.25rem; }
+        .nav-links a { font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--primary); transition: width 0.3s var(--ease-out); }
+        .nav-links a:hover { color: var(--primary-dark); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta { padding: 0.65rem 1.4rem; background: var(--primary); color: white !important; font-weight: 600; border-radius: var(--radius-sm); transition: all 0.3s ease; box-shadow: var(--shadow-sm); }
+        .nav-cta::after { display: none; }
+        .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text-primary); margin: 5px 0; border-radius: 2px; }
+
+        /* Hero - Simplified */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 9rem 0 5rem; background: linear-gradient(180deg, var(--warm-white) 0%, var(--blush) 50%, var(--cream) 100%); position: relative; }
+        .hero-content { text-align: center; max-width: 700px; margin: 0 auto; }
+        .hero-kicker { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; }
+        .hero-title { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 500; line-height: 1.25; margin-bottom: 1.5rem; letter-spacing: 0.01em; }
+        .hero-lead { font-size: 1rem; color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.9; }
+        .hero-stats { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .hero-stat { text-align: center; padding: 1.25rem 1.75rem; background: var(--warm-white); border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); transition: all 0.3s var(--ease-out); }
+        .hero-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .hero-stat-value { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
+        .hero-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; font-weight: 500; letter-spacing: 0.05em; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.9rem 1.75rem; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); border: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-secondary { background: var(--warm-white); color: var(--text-primary); border: 1px solid var(--border-medium); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--blush); }
+        .btn-line { background: #06C755; color: white; }
+        .btn-line:hover { background: #05a84a; transform: translateY(-2px); }
+
+        /* Section Common */
+        section { padding: 5.5rem 0; }
+        .section-white { background: var(--warm-white); }
+        .section-cream { background: var(--cream); }
+        .section-blush { background: linear-gradient(180deg, var(--blush) 0%, var(--cream) 100%); }
+        .section-dark { background: var(--charcoal); color: var(--warm-white); }
+        .section-header { text-align: center; max-width: 580px; margin: 0 auto 3.5rem; }
+        .section-kicker { font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary); margin-bottom: 0.75rem; }
+        .section-dark .section-kicker { color: var(--primary-light); }
+        .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 500; margin-bottom: 1rem; letter-spacing: 0.01em; }
+        .section-lead { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.85; }
+        .section-dark .section-lead { color: rgba(255,255,255,0.65); }
+
+        /* Features Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+        .feature-card { padding: 1.75rem; background: var(--warm-white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); transition: all 0.4s var(--ease-out); }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+        .feature-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--blush), var(--cream)); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+        .feature-icon svg { width: 24px; height: 24px; stroke: var(--primary-dark); stroke-width: 1.5; fill: none; }
+        .feature-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .feature-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.75; }
+
+        /* Diagnostic */
+        .diagnostic-content { max-width: 760px; margin: 0 auto; }
+        .diagnostic-form { background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-xl); padding: 2.5rem; }
+        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 2rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.6rem; }
+        .form-group label { font-size: 0.75rem; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; font-weight: 500; }
+        .form-group input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-sm); padding: 0.9rem 1rem; font-size: 1.4rem; font-family: var(--font-display); font-weight: 600; color: var(--warm-white); outline: none; transition: all 0.3s ease; }
+        .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(212,163,115,0.2); }
+        .form-group input::placeholder { color: rgba(255,255,255,0.25); }
+        .form-unit { font-size: 0.8rem; color: rgba(255,255,255,0.45); }
+        .diagnostic-result { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .result-item { text-align: center; padding: 1.5rem; background: rgba(212,163,115,0.12); border: 1px solid rgba(212,163,115,0.2); border-radius: var(--radius-md); }
+        .result-label { font-size: 0.7rem; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; margin-bottom: 0.6rem; text-transform: uppercase; font-weight: 500; }
+        .result-value { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--primary-light); }
+
+        /* Properties */
+        .property-filters { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .filter-btn { background: var(--warm-white); border: 1px solid var(--border-light); padding: 0.55rem 1.25rem; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); border-radius: 100px; cursor: pointer; transition: all 0.3s ease; }
+        .filter-btn:hover, .filter-btn.active { border-color: var(--primary); color: var(--primary-dark); background: var(--blush); }
+        .properties-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+        
+        /* Property Card */
+        .property-card { background: var(--warm-white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-light); transition: all 0.4s var(--ease-out); position: relative; }
+        .property-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: transparent; }
+        .property-card.sold { opacity: 0.85; }
+        .property-card.sold:hover { transform: none; box-shadow: none; }
+        
+        /* SOLD Ribbon */
+        .sold-ribbon { position: absolute; top: 20px; right: -35px; z-index: 10; background: var(--sold-red); color: white; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.4rem 2.5rem; transform: rotate(45deg); box-shadow: 0 2px 8px rgba(196, 92, 92, 0.4); }
+        
+        .property-image { aspect-ratio: 4/3; background: var(--cream); position: relative; overflow: hidden; }
+        .property-card.sold .property-image::after { content: ''; position: absolute; inset: 0; background: rgba(45, 42, 38, 0.3); }
+        .property-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out); }
+        .property-card:not(.sold):hover .property-image img { transform: scale(1.05); }
+        .property-tag { position: absolute; top: 0.875rem; left: 0.875rem; background: var(--primary); color: white; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; padding: 0.4rem 0.9rem; border-radius: 6px; z-index: 5; }
+        .property-tag.skeleton { background: var(--accent-dark); }
+        .property-tag.street { background: var(--sage); color: var(--charcoal); }
+        .property-content { padding: 1.25rem; }
+        .property-area { font-size: 0.7rem; font-weight: 600; color: var(--primary); letter-spacing: 0.12em; margin-bottom: 0.4rem; }
+        .property-card.sold .property-area { color: var(--text-muted); }
+        .property-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .property-details { display: flex; gap: 0.875rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .property-price { display: flex; justify-content: space-between; align-items: center; padding-top: 0.875rem; border-top: 1px solid var(--border-light); }
+        .property-price-label { font-size: 0.7rem; color: var(--text-muted); }
+        .property-price-value { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+        .property-card.sold .property-price-value { color: var(--text-muted); text-decoration: line-through; }
+
+        /* Process */
+        .process-list { max-width: 700px; margin: 0 auto; }
+        .process-item { display: flex; gap: 1.5rem; padding: 1.75rem 0; border-bottom: 1px solid var(--border-light); transition: all 0.3s ease; }
+        .process-item:last-child { border-bottom: none; }
+        .process-item:hover { padding-left: 0.5rem; }
+        .process-number { width: 48px; height: 48px; border-radius: 50%; background: var(--blush); border: 2px solid var(--primary-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--primary-dark); flex-shrink: 0; transition: all 0.3s ease; }
+        .process-item:hover .process-number { background: var(--primary); color: white; border-color: var(--primary); }
+        .process-content { flex: 1; }
+        .process-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
+        .process-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; }
+
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3.5rem; align-items: start; }
+        .contact-info { padding: 2.5rem; background: linear-gradient(135deg, var(--blush), var(--cream)); border-radius: var(--radius-xl); }
+        .contact-info h3 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem; line-height: 1.4; }
+        .contact-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1.75rem; }
+        .contact-list { display: flex; flex-direction: column; gap: 1rem; }
+        .contact-item { display: flex; align-items: center; gap: 0.875rem; }
+        .contact-icon { width: 42px; height: 42px; background: var(--primary); color: white; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .contact-icon svg { width: 20px; height: 20px; stroke: white; stroke-width: 1.5; fill: none; }
+        .contact-icon.line { background: #06C755; }
+        .contact-item-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+        .contact-item-value { font-size: 0.9rem; font-weight: 500; }
+        .contact-form-wrapper { background: var(--warm-white); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 2.25rem; box-shadow: var(--shadow-sm); }
+        .contact-form .form-group { margin-bottom: 1.25rem; }
+        .contact-form label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight: 500; }
+        .contact-form input, .contact-form select, .contact-form textarea { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--border-light); border-radius: var(--radius-sm); font-size: 0.9rem; font-family: var(--font-body); background: var(--cream); transition: all 0.3s ease; }
+        .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: none; border-color: var(--primary); background: var(--warm-white); box-shadow: 0 0 0 3px rgba(212,163,115,0.1); }
+        .contact-form textarea { min-height: 100px; resize: vertical; }
+        .contact-form .btn { width: 100%; }
+
+        /* Footer */
+        footer { background: var(--charcoal); color: var(--warm-white); padding: 4.5rem 0 2rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 3.5rem; }
+        .footer-brand .footer-logo { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 500; color: var(--warm-white); margin-bottom: 0.875rem; }
+        .footer-brand .footer-logo span { color: var(--primary-light); }
+        .footer-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.75; }
+        .footer-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; color: var(--primary-light); margin-bottom: 1.25rem; text-transform: uppercase; }
+        .footer-links { display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-links a { font-size: 0.85rem; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-light); }
+        .footer-bottom { padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-copyright { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+        .footer-legal { display: flex; gap: 1.5rem; }
+        .footer-legal a { font-size: 0.75rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.3s; }
+        .footer-legal a:hover { color: var(--primary-light); }
+
+        /* Floating CTA */
+        .floating-cta { position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; z-index: 900; }
+        .float-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; box-shadow: var(--shadow-lg); transition: all 0.3s ease; }
+        .float-btn:hover { transform: translateY(-3px) scale(1.05); }
+        .float-btn.line { background: #06C755; }
+        .float-btn.contact { background: var(--primary); }
+        .float-btn.top { background: var(--charcoal); }
+        .float-btn svg { width: 22px; height: 22px; stroke: white; stroke-width: 1.5; fill: none; }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s var(--ease-out); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid, .properties-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .top-bar-inner { flex-direction: column; gap: 0.5rem; }
+            header { top: 70px; }
+            .nav-links { display: none; }
+            .nav-toggle { display: block; }
+            .hero { padding: 9rem 0 4rem; }
+            .features-grid, .properties-grid { grid-template-columns: 1fr; }
+            .form-row, .result-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <a href="https://v8corp.jp" target="_blank" class="v8-link">
+                <div class="v8-logo-mark">
+                    <svg viewBox="0 0 55 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="53" height="48" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.5"/>
+                        <line x1="11" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+                        <line x1="14" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+                        <line x1="17" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+                        <line x1="20" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+                        <line x1="35" y1="10" x2="27.5" y2="23" stroke="#1a1a1a" stroke-width="0.9" opacity="0.75"/>
+                        <line x1="38" y1="10" x2="27.5" y2="24" stroke="#1a1a1a" stroke-width="0.8" opacity="0.5"/>
+                        <line x1="41" y1="10" x2="27.5" y2="25" stroke="#1a1a1a" stroke-width="0.7" opacity="0.35"/>
+                        <line x1="44" y1="10" x2="27.5" y2="26" stroke="#1a1a1a" stroke-width="0.7" opacity="0.25"/>
+                        <path d="M17 36 C17 31, 22 29, 27.5 36 C33 29, 38 31, 38 36 C38 41, 33 43, 27.5 36 C22 43, 17 41, 17 36" stroke="#9a8256" stroke-width="1" fill="none" opacity="0.75"/>
+                    </svg>
+                </div>
+                <span class="v8-text">Corporation</span>
+            </a>
+            <div class="lang-switch">
+                <button class="active" data-lang="ja">日本語</button>
+                <button data-lang="en">EN</button>
+                <button data-lang="zh">中文</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="nav">
+                <a href="#" class="logo">
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 46 46" fill="none">
+                            <circle cx="23" cy="23" r="22" stroke="#d4a373" stroke-width="1.5"/>
+                            <path d="M15 28c0 0 3-4 8-4s8 4 8 4" stroke="#d4a373" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="23" cy="19" r="6" stroke="#d4a373" stroke-width="1.5"/>
+                            <path d="M19 17l8 4M27 17l-8 4" stroke="#d4a373" stroke-width="1.2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">salon<span>X</span></span>
+                        <span class="logo-sub">Beauty Real Estate</span>
+                    </div>
+                </a>
+                <nav class="nav-links">
+                    <a href="#features">特徴</a>
+                    <a href="#diagnostic">診断</a>
+                    <a href="#properties">物件</a>
+                    <a href="#process">流れ</a>
+                    <a href="#contact" class="nav-cta">お問合せ</a>
+                </nav>
+                <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero - Simplified -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-kicker">Beauty Salon Real Estate</div>
+                <h1 class="hero-title">美容サロン開業を、<br>もっとシンプルに。</h1>
+                <p class="hero-lead">サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。<br>無駄なく、迷いなく、理想のサロンを実現します。</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" data-count="2847">0</div>
+                        <div class="hero-stat-label">取扱物件数</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" data-count="1523">0</div>
+                        <div class="hero-stat-label">成約実績</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value"><span data-count="94">0</span>%</div>
+                        <div class="hero-stat-label">融資成功率</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#diagnostic" class="btn btn-primary">5分で開業診断</a>
+                    <a href="#properties" class="btn btn-secondary">物件を見る</a>
+                    <a href="#" class="btn btn-line">LINE相談</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section-white">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-kicker">Features</div>
+                <h2 class="section-title">salonXが選ばれる理由</h2>
+                <p class="section-lead">美容サロン開業に特化した専門サービスで、あなたの夢を確実に形にします。</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div>
+                    <h3 class="feature-title">おとり物件ゼロ</h3>
+                    <p class="feature-desc">すべての掲載物件は現地確認済み。存在しない物件でお客様の時間を奪うことは一切ありません。</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <h3 class="feature-title">5分開業診断</h3>
+                    <p class="feature-desc">目標客数と客単価から、最適な家賃帯と初期資金を即座に算出。事業計画の第一歩を支援します。</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <h3 class="feature-title">LINE即レス対応</h3>
+                    <p class="feature-desc">新着物件情報をLINEでリアルタイム通知。気になる物件はそのままチャットで内見予約が可能です。</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                    <h3 class="feature-title">居抜き物件査定</h3>
+                    <p class="feature-desc">独自のネットワークで居抜き物件を多数確保。造作譲渡のマッチングで初期費用を大幅削減。</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                    <h3 class="feature-title">融資サポート</h3>
+                    <p class="feature-desc">日本政策金融公庫をはじめとする融資申請を全面サポート。成功率94%以上の実績があります。</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                    <h3 class="feature-title">内見レポート自動生成</h3>
+                    <p class="feature-desc">内見後にPDFレポートを自動生成。物件比較や融資相談に必要な資料作成の手間を省きます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnostic -->
+    <section id="diagnostic" class="section-dark">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-kicker">Diagnostic</div>
+                <h2 class="section-title">5分でわかる開業診断</h2>
+                <p class="section-lead">目標の数字を入力するだけで、理想の家賃帯と必要資金が見えてきます。</p>
+            </div>
+            <div class="diagnostic-content reveal">
+                <div class="diagnostic-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>月間目標客数</label>
+                            <input type="number" id="clients" placeholder="100" value="100">
+                            <span class="form-unit">人/月</span>
+                        </div>
+                        <div class="form-group">
+                            <label>平均客単価</label>
+                            <input type="number" id="price" placeholder="8000" value="8000">
+                            <span class="form-unit">円</span>
+                        </div>
+                    </div>
+                    <div class="diagnostic-result">
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">予想月商</div>
+                                <div class="result-value" id="revenue">¥800,000</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">適正家賃</div>
+                                <div class="result-value" id="rent">¥120,000</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">想定初期資金</div>
+                                <div class="result-value" id="capital">¥3,600,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties -->
+    <section id="properties" class="section-blush">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-kicker">Properties</div>
+                <h2 class="section-title">最新の物件情報</h2>
+                <p class="section-lead">厳選されたサロン向け物件をご紹介。すべて現地確認済みです。</p>
+            </div>
+            <div class="property-filters reveal">
+                <button class="filter-btn active" data-filter="all">すべて</button>
+                <button class="filter-btn" data-filter="skeleton">スケルトン</button>
+                <button class="filter-btn" data-filter="turnkey">居抜き</button>
+                <button class="filter-btn" data-filter="street">路面店</button>
+            </div>
+            <div class="properties-grid">
+                <!-- SOLD Property -->
+                <div class="property-card reveal sold" data-type="turnkey">
+                    <div class="sold-ribbon">SOLD</div>
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600" alt="Property">
+                        <span class="property-tag">居抜き</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">SHINJUKU</div>
+                        <h3 class="property-name">新宿三丁目 美容サロン居抜き</h3>
+                        <div class="property-details"><span>25.5㎡</span><span>6F</span><span>徒歩2分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥198,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- Available Property -->
+                <div class="property-card reveal" data-type="skeleton">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600" alt="Property">
+                        <span class="property-tag skeleton">スケルトン</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">KICHIJOJI</div>
+                        <h3 class="property-name">吉祥寺駅前 新築スケルトン</h3>
+                        <div class="property-details"><span>32.8㎡</span><span>2F</span><span>徒歩1分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥275,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- Available Property -->
+                <div class="property-card reveal" data-type="street">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1633681926035-ec1ac984418a?w=600" alt="Property">
+                        <span class="property-tag street">路面店</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">NAKAMEGURO</div>
+                        <h3 class="property-name">中目黒 路面店舗</h3>
+                        <div class="property-details"><span>28.2㎡</span><span>1F</span><span>徒歩5分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥320,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- SOLD Property -->
+                <div class="property-card reveal sold" data-type="turnkey">
+                    <div class="sold-ribbon">SOLD</div>
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600" alt="Property">
+                        <span class="property-tag">居抜き</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">SHIMOKITAZAWA</div>
+                        <h3 class="property-name">下北沢 ネイルサロン居抜き</h3>
+                        <div class="property-details"><span>18.5㎡</span><span>3F</span><span>徒歩3分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥145,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- Available Property -->
+                <div class="property-card reveal" data-type="skeleton">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600" alt="Property">
+                        <span class="property-tag skeleton">スケルトン</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">SHIBUYA</div>
+                        <h3 class="property-name">渋谷道玄坂 大型スケルトン</h3>
+                        <div class="property-details"><span>45.0㎡</span><span>4F</span><span>徒歩4分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥385,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- Available Property -->
+                <div class="property-card reveal" data-type="street">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600" alt="Property">
+                        <span class="property-tag street">路面店</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">MITAKA</div>
+                        <h3 class="property-name">三鷹駅南口 路面店舗</h3>
+                        <div class="property-details"><span>22.0㎡</span><span>1F</span><span>徒歩2分</span></div>
+                        <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥168,000/月</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="section-white">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-kicker">Process</div>
+                <h2 class="section-title">ご利用の流れ</h2>
+                <p class="section-lead">お問い合わせから開業まで、一貫してサポートいたします。</p>
+            </div>
+            <div class="process-list reveal">
+                <div class="process-item"><div class="process-number">01</div><div class="process-content"><h3 class="process-title">無料相談・ヒアリング</h3><p class="process-desc">LINEまたはお電話で、ご希望のエリア・予算・サロンのコンセプトをお聞かせください。</p></div></div>
+                <div class="process-item"><div class="process-number">02</div><div class="process-content"><h3 class="process-title">物件のご提案</h3><p class="process-desc">ご要望に合った物件を厳選してご紹介。非公開物件もご案内可能です。</p></div></div>
+                <div class="process-item"><div class="process-number">03</div><div class="process-content"><h3 class="process-title">内見・現地確認</h3><p class="process-desc">実際に物件をご覧いただき、設備や周辺環境をご確認。内見レポートをお渡しします。</p></div></div>
+                <div class="process-item"><div class="process-number">04</div><div class="process-content"><h3 class="process-title">契約・融資サポート</h3><p class="process-desc">契約交渉から融資申請まで全面サポート。有利な条件を引き出します。</p></div></div>
+                <div class="process-item"><div class="process-number">05</div><div class="process-content"><h3 class="process-title">開業・アフターフォロー</h3><p class="process-desc">内装業者や機器メーカーのご紹介も可能。開業後もサポートを継続します。</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-cream">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-kicker">Contact</div>
+                <h2 class="section-title">お問い合わせ</h2>
+                <p class="section-lead">まずはお気軽にご相談ください。専門スタッフが対応いたします。</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>サロン開業のご相談は<br>salonXへ</h3>
+                    <p class="contact-text">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。LINEでのお問い合わせが便利です。</p>
+                    <div class="contact-list">
+                        <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="contact-item-label">Address</div><div class="contact-item-value">東京都渋谷区神宮前1-2-3</div></div></div>
+                        <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="contact-item-label">Tel</div><div class="contact-item-value">03-1234-5678</div></div></div>
+                        <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31585f575e7142505d5e5f491f5b41">[email&#160;protected]</a></div></div></div>
+                        <div class="contact-item"><div class="contact-icon line"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div><div class="contact-item-label">LINE</div><div class="contact-item-value">@salonx</div></div></div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper reveal">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group"><label>お名前 *</label><input type="text" name="name" required></div>
+                        <div class="form-group"><label>メールアドレス *</label><input type="email" name="email" required></div>
+                        <div class="form-group"><label>電話番号</label><input type="tel" name="phone"></div>
+                        <div class="form-group"><label>お問い合わせ種別</label><select name="type"><option value="property">物件のご相談</option><option value="consultation">開業のご相談</option><option value="loan">融資のご相談</option><option value="other">その他</option></select></div>
+                        <div class="form-group"><label>お問い合わせ内容</label><textarea name="message" rows="4"></textarea></div>
+                        <button type="submit" class="btn btn-primary">送信する</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><div class="footer-logo">salon<span>X</span></div><p class="footer-desc">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。</p></div>
+                <div><h4 class="footer-title">Menu</h4><div class="footer-links"><a href="#features">特徴</a><a href="#diagnostic">開業診断</a><a href="#properties">物件情報</a><a href="#process">ご利用の流れ</a><a href="#contact">お問い合わせ</a></div></div>
+                <div><h4 class="footer-title">Service</h4><div class="footer-links"><a href="#">物件紹介</a><a href="#">居抜きマッチング</a><a href="#">融資サポート</a><a href="#">開業コンサルティング</a></div></div>
+                <div><h4 class="footer-title">Company</h4><div class="footer-links"><a href="https://v8corp.jp" target="_blank">V8 Corporation</a><a href="#">会社概要</a><a href="#">採用情報</a><a href="#">プライバシーポリシー</a></div></div>
+            </div>
+            <div class="footer-bottom"><div class="footer-copyright">© 2024 salonX by V8 Corporation. All rights reserved.</div><div class="footer-legal"><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div></div>
+        </div>
+    </footer>
+
+    <!-- Floating CTA -->
+    <div class="floating-cta">
+        <a href="#" class="float-btn line" title="LINE相談"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+        <a href="#contact" class="float-btn contact" title="お問い合わせ"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        <a href="#" class="float-btn top" id="scrollTop" title="トップへ"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></a>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            document.getElementById('scrollProgress').style.width = (scrollTop / scrollHeight) * 100 + '%';
+            document.getElementById('header').classList.toggle('scrolled', scrollTop > 50);
+        });
+        document.getElementById('scrollTop').addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        const revealObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        const counterObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const target = parseInt(entry.target.getAttribute('data-count')); let current = 0; const increment = target / 40; const timer = setInterval(() => { current += increment; if (current >= target) { entry.target.textContent = target.toLocaleString(); clearInterval(timer); } else { entry.target.textContent = Math.floor(current).toLocaleString(); } }, 30); counterObserver.unobserve(entry.target); } }); }, { threshold: 0.5 });
+        document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+        const clientsInput = document.getElementById('clients'); const priceInput = document.getElementById('price');
+        function calculate() { const clients = parseInt(clientsInput.value) || 0; const price = parseInt(priceInput.value) || 0; const revenue = clients * price; const rent = Math.round(revenue * 0.15); const capital = rent * 30; document.getElementById('revenue').textContent = '¥' + revenue.toLocaleString(); document.getElementById('rent').textContent = '¥' + rent.toLocaleString(); document.getElementById('capital').textContent = '¥' + capital.toLocaleString(); }
+        clientsInput.addEventListener('input', calculate); priceInput.addEventListener('input', calculate);
+        document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const filter = btn.getAttribute('data-filter'); document.querySelectorAll('.property-card').forEach(card => { card.style.display = (filter === 'all' || card.getAttribute('data-type') === filter) ? 'block' : 'none'; }); }); });
+        document.getElementById('contactForm').addEventListener('submit', (e) => { e.preventDefault(); alert('お問い合わせを受け付けました。担当者より折り返しご連絡いたします。'); });
+        document.querySelectorAll('.lang-switch button').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const href = this.getAttri
