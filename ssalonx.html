@@ -276,7 +276,7 @@
                         <path d="M17 36 C17 31, 22 29, 27.5 36 C33 29, 38 31, 38 36 C38 41, 33 43, 27.5 36 C22 43, 17 41, 17 36" stroke="#9a8256" stroke-width="1" fill="none" opacity="0.75"/>
                     </svg>
                 </div>
-                <span class="v8-text">Corporation</span>
+                <span class="v8-text">V8 Corporation</span>
             </a>
             <div class="lang-switch">
                 <button class="active" data-lang="ja">日本語</button>
@@ -293,14 +293,24 @@
                 <a href="#" class="logo">
                     <div class="logo-mark">
                         <svg viewBox="0 0 46 46" fill="none">
-                            <circle cx="23" cy="23" r="22" stroke="#d4a373" stroke-width="1.5"/>
-                            <path d="M15 28c0 0 3-4 8-4s8 4 8 4" stroke="#d4a373" stroke-width="1.5" stroke-linecap="round"/>
-                            <circle cx="23" cy="19" r="6" stroke="#d4a373" stroke-width="1.5"/>
-                            <path d="M19 17l8 4M27 17l-8 4" stroke="#d4a373" stroke-width="1.2" stroke-linecap="round"/>
+                            <!-- Original SX: Scissors abstraction forming S, blades crossing as X -->
+                            <defs>
+                                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#d4a373"/>
+                                    <stop offset="50%" stop-color="#c49566"/>
+                                    <stop offset="100%" stop-color="#b8956c"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Left blade: curves into S top -->
+                            <path d="M8 8 Q8 20, 23 23 Q38 26, 38 38" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            <!-- Right blade: crosses to form X -->
+                            <path d="M38 8 Q38 20, 23 23 Q8 26, 8 38" stroke="#2d2a26" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            <!-- Center pivot point -->
+                            <circle cx="23" cy="23" r="2.5" fill="#d4a373"/>
                         </svg>
                     </div>
                     <div class="logo-text">
-                        <span class="logo-main">salon<span>X</span></span>
+                        <span class="logo-main">Salon<span>X</span></span>
                         <span class="logo-sub">Beauty Real Estate</span>
                     </div>
                 </a>
@@ -591,7 +601,7 @@
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><div class="footer-logo">salon<span>X</span></div><p class="footer-desc">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。</p></div>
+                <div class="footer-brand"><div class="footer-logo">Salon<span>X</span></div><p class="footer-desc">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。</p></div>
                 <div><h4 class="footer-title">Menu</h4><div class="footer-links"><a href="#features">特徴</a><a href="#diagnostic">開業診断</a><a href="#properties">物件情報</a><a href="#process">ご利用の流れ</a><a href="#contact">お問い合わせ</a></div></div>
                 <div><h4 class="footer-title">Service</h4><div class="footer-links"><a href="#">物件紹介</a><a href="#">居抜きマッチング</a><a href="#">融資サポート</a><a href="#">開業コンサルティング</a></div></div>
                 <div><h4 class="footer-title">Company</h4><div class="footer-links"><a href="https://v8corp.jp" target="_blank">V8 Corporation</a><a href="#">会社概要</a><a href="#">採用情報</a><a href="#">プライバシーポリシー</a></div></div>
