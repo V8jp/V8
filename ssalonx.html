@@ -42,6 +42,28 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+        a, button, [role="button"], input[type="submit"], select, .property-card, .filter-btn, .favorite-btn { cursor: pointer; }
+        
+        /* Fun Interactions */
+        @keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(212, 163, 115, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(212, 163, 115, 0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-2px); } 40%, 80% { transform: translateX(2px); } }
+        
+        .nav-links a:hover { animation: bounce 0.4s ease; }
+        .btn:hover { animation: pop 0.3s ease; }
+        .btn-primary:hover { animation: pulse 0.6s ease, pop 0.3s ease; }
+        .feature-icon:hover { animation: wiggle 0.5s ease; }
+        .feature-card:hover .feature-icon { animation: bounce 0.5s ease; }
+        .filter-btn:hover { animation: pop 0.25s ease; }
+        .favorite-btn:hover svg { animation: bounce 0.4s ease; }
+        .favorite-btn.active svg { animation: pop 0.3s ease; }
+        .property-tag:hover { animation: shake 0.3s ease; }
+        .hero-kicker { animation: float 3s ease-in-out infinite; }
+        .logo-mark:hover svg { animation: wiggle 0.5s ease; }
+        .footer-logo:hover { animation: pop 0.3s ease; display: inline-block; }
         body { font-family: var(--font-body); background: var(--warm-white); color: var(--text-primary); line-height: 1.75; overflow-x: hidden; }
         .container { max-width: 1160px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 3rem); }
 
@@ -65,7 +87,9 @@
         .nav { display: flex; align-items: center; justify-content: space-between; }
         
         /* Logo */
-        .logo { display: flex; align-items: center; gap: 0.875rem; text-decoration: none; }
+        .logo { display: flex; align-items: center; gap: 0.875rem; text-decoration: none; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.03); }
+        .logo:hover .logo-mark svg { animation: wiggle 0.5s ease; }
         .logo-mark { width: 46px; height: 46px; position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-mark svg { width: 100%; height: 100%; }
         .logo-text { display: flex; flex-direction: column; gap: 0.1rem; }
@@ -82,10 +106,13 @@
         .nav-cta::after { display: none; }
         .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
         .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
-        .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text-primary); margin: 5px 0; border-radius: 2px; }
+        .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text-primary); margin: 5px 0; border-radius: 2px; transition: all 0.3s ease; }
+        .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .nav-toggle.active span:nth-child(2) { opacity: 0; }
+        .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
         /* Hero - Simplified */
-        .hero { min-height: auto; display: flex; align-items: center; padding: 7rem 0 3.5rem; background: linear-gradient(180deg, var(--warm-white) 0%, var(--blush) 50%, var(--cream) 100%); position: relative; }
+        .hero { min-height: auto; display: flex; align-items: center; padding: 10rem 0 3.5rem; background: linear-gradient(180deg, var(--warm-white) 0%, var(--blush) 50%, var(--cream) 100%); position: relative; }
         .hero-content { text-align: center; max-width: 700px; margin: 0 auto; }
         .hero-kicker { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary); margin-bottom: 1rem; }
         .hero-title { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 500; line-height: 1.25; margin-bottom: 1rem; letter-spacing: 0.01em; }
@@ -96,6 +123,17 @@
         .hero-stat-value { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
         .hero-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; font-weight: 500; letter-spacing: 0.05em; }
         .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        
+        /* Hero Features */
+        .hero-features { display: flex; gap: 1.5rem; justify-content: center; margin: 2.5rem 0; flex-wrap: wrap; }
+        .hero-feature { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 1rem 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-light); transition: all 0.3s ease; }
+        .hero-feature:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .hero-feature-icon { width: 44px; height: 44px; background: var(--blush); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-dark); flex-shrink: 0; }
+        .hero-feature-icon svg { width: 22px; height: 22px; }
+        .hero-feature-text { text-align: left; }
+        .hero-feature-text strong { display: block; font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.15rem; }
+        .hero-feature-text span { font-size: 0.8rem; color: var(--text-muted); }
+        .sp-hide { display: inline; }
 
         /* Buttons */
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.9rem 1.75rem; font-size: 0.9rem; font-weight: 600; font-family: var(--font-body); border: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
@@ -123,7 +161,10 @@
         .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
         .feature-card { padding: 1.75rem; background: var(--warm-white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); transition: all 0.4s var(--ease-out); }
         .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
-        .feature-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--blush), var(--cream)); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+        .feature-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--blush), var(--cream)); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; transition: all 0.3s ease; }
+        .feature-icon svg { transition: all 0.3s ease; }
+        .feature-card:hover .feature-icon { background: linear-gradient(135deg, var(--primary-light), var(--blush)); transform: scale(1.1) rotate(5deg); }
+        .feature-card:hover .feature-icon svg { stroke: var(--primary-dark); }
         .feature-icon svg { width: 24px; height: 24px; stroke: var(--primary-dark); stroke-width: 1.5; fill: none; }
         .feature-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; }
         .feature-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.75; }
@@ -139,10 +180,19 @@
         .form-group input::placeholder { color: rgba(255,255,255,0.25); }
         .form-unit { font-size: 0.8rem; color: rgba(255,255,255,0.45); }
         .diagnostic-result { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .result-breakdown { margin-top: 1.5rem; padding: 1.25rem; background: rgba(0,0,0,0.2); border-radius: var(--radius-md); }
+        .result-title { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem; font-weight: 500; }
+        .breakdown-row { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-row.total { border-top: 1px solid rgba(255,255,255,0.2); margin-top: 0.5rem; padding-top: 1rem; font-weight: 600; color: var(--primary-light); font-size: 1.1rem; }
+        .diagnostic-note { margin-top: 1.25rem; font-size: 0.8rem; color: rgba(255,255,255,0.5); text-align: center; }
+        .form-group select { width: 100%; padding: 0.875rem 1rem; border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-md); background: rgba(255,255,255,0.08); color: var(--warm-white); font-size: 1rem; font-family: var(--font-body); }
+        .form-group select option { background: var(--charcoal); color: var(--warm-white); }
         .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .result-item { text-align: center; padding: 1.5rem; background: rgba(212,163,115,0.12); border: 1px solid rgba(212,163,115,0.2); border-radius: var(--radius-md); }
         .result-label { font-size: 0.7rem; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; margin-bottom: 0.6rem; text-transform: uppercase; font-weight: 500; }
-        .result-value { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--primary-light); }
+        .result-value { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--primary-light); transition: all 0.3s ease; }
+        .result-value:hover { transform: scale(1.05); color: white; }
 
         /* Properties */
         .property-filters { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
@@ -152,7 +202,17 @@
         
         /* Property Card */
         .property-card { background: var(--warm-white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-light); transition: all 0.4s var(--ease-out); position: relative; }
-        .property-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: transparent; }
+        .favorite-btn { position: absolute; top: 12px; right: 12px; z-index: 10; width: 36px; height: 36px; border: none; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .favorite-btn svg { width: 18px; height: 18px; fill: none; stroke: var(--text-muted); stroke-width: 2; transition: all 0.2s ease; }
+        .favorite-btn:hover { transform: scale(1.1); }
+        .favorite-btn:hover svg { stroke: var(--coral); }
+        .favorite-btn.active { background: var(--coral); animation: pop 0.3s ease; }
+        .favorite-btn.active svg { fill: white; stroke: white; animation: pop 0.3s ease; }
+        .favorite-filter svg { width: 14px; height: 14px; margin-right: 4px; vertical-align: middle; }
+        .property-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+        .property-card:hover .property-image img { transform: scale(1.05); }
+        .property-card:hover .property-tag { animation: shake 0.4s ease; }
+        .property-image img { transition: transform 0.4s ease; }
         .property-card.sold { opacity: 0.85; }
         .property-card.sold:hover { transform: none; box-shadow: none; }
         
@@ -166,6 +226,7 @@
         .property-tag { position: absolute; top: 0.875rem; left: 0.875rem; background: var(--primary); color: white; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; padding: 0.4rem 0.9rem; border-radius: 6px; z-index: 5; }
         .property-tag.skeleton { background: var(--accent-dark); }
         .property-tag.street { background: var(--sage); color: var(--charcoal); }
+        .property-tag.share { background: #9b59b6; color: white; }
         .property-content { padding: 1.25rem; }
         .property-area { font-size: 0.7rem; font-weight: 600; color: var(--primary); letter-spacing: 0.12em; margin-bottom: 0.4rem; }
         .property-card.sold .property-area { color: var(--text-muted); }
@@ -180,9 +241,9 @@
         .process-list { max-width: 700px; margin: 0 auto; }
         .process-item { display: flex; gap: 1.5rem; padding: 1.75rem 0; border-bottom: 1px solid var(--border-light); transition: all 0.3s ease; }
         .process-item:last-child { border-bottom: none; }
-        .process-item:hover { padding-left: 0.5rem; }
+        .process-item:hover { padding-left: 0.5rem; background: rgba(212, 163, 115, 0.05); border-radius: var(--radius-md); }
         .process-number { width: 48px; height: 48px; border-radius: 50%; background: var(--blush); border: 2px solid var(--primary-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--primary-dark); flex-shrink: 0; transition: all 0.3s ease; }
-        .process-item:hover .process-number { background: var(--primary); color: white; border-color: var(--primary); }
+        .process-item:hover .process-number { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.15) rotate(10deg); }
         .process-content { flex: 1; }
         .process-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
         .process-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; }
@@ -226,15 +287,37 @@
         /* Floating CTA */
         .floating-cta { position: fixed; bottom: 1.5rem; right: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; z-index: 900; }
         .float-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; box-shadow: var(--shadow-lg); transition: all 0.3s ease; }
-        .float-btn:hover { transform: translateY(-3px) scale(1.05); }
+        .float-btn:hover { transform: translateY(-3px) scale(1.1); }
+        .float-btn:hover svg { animation: bounce 0.4s ease; }
         .float-btn.line { background: #06C755; }
+        .float-btn.line:hover { animation: pulse 0.6s ease; }
         .float-btn.contact { background: var(--primary); }
         .float-btn.top { background: var(--charcoal); }
+        .float-btn.top:hover svg { animation: bounce 0.3s ease infinite; }
         .float-btn svg { width: 22px; height: 22px; stroke: white; stroke-width: 1.5; fill: none; }
 
         /* Reveal Animation */
         .reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s var(--ease-out); }
         .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: var(--warm-white); border-radius: var(--radius-xl); max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; transform: translateY(20px) scale(0.95); transition: all 0.3s var(--ease-out); }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px; border: none; background: var(--cream); border-radius: 50%; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+        .modal-close:hover { background: var(--primary-light); color: var(--primary-dark); }
+        .modal-body { padding: 3rem 2.5rem; }
+        .modal-title { font-family: var(--font-serif); font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.75rem; }
+        .modal-lead { font-size: 1.25rem; color: var(--primary-dark); font-weight: 500; margin-bottom: 1.5rem; }
+        .modal-text { color: var(--text-secondary); line-height: 1.8; }
+        .modal-text p { margin-bottom: 1.25rem; }
+        .modal-values { list-style: none; padding: 0; margin: 1.5rem 0 0 0; }
+        .modal-values li { padding: 0.75rem 0; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+        .modal-values li:last-child { border-bottom: none; }
+        .modal-values strong { color: var(--text-primary); }
+        .btn-ghost { background: transparent; border: 1px solid var(--border-medium); color: var(--text-secondary); }
+        .btn-ghost:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--blush); }
 
         /* Responsive */
         @media (max-width: 1024px) {
@@ -245,9 +328,39 @@
         @media (max-width: 768px) {
             .top-bar-inner { flex-direction: column; gap: 0.5rem; }
             header { top: 70px; }
-            .nav-links { display: none; }
+            .nav-links { 
+                display: none; 
+                position: absolute; 
+                top: 100%; 
+                left: 0; 
+                right: 0; 
+                background: var(--warm-white); 
+                flex-direction: column; 
+                padding: 1.5rem; 
+                gap: 0; 
+                box-shadow: var(--shadow-lg);
+                border-top: 1px solid var(--border-light);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { 
+                padding: 1rem 0; 
+                border-bottom: 1px solid var(--border-light); 
+                width: 100%;
+            }
+            .nav-links a:last-child { border-bottom: none; }
+            .nav-cta.nav-cta { 
+                margin-top: 0.5rem; 
+                text-align: center; 
+                background: var(--primary); 
+                color: white !important; 
+                border-radius: var(--radius-sm); 
+                padding: 1rem !important;
+            }
             .nav-toggle { display: block; }
-            .hero { padding: 9rem 0 4rem; }
+            .hero { padding: 11rem 0 4rem; }
+            .hero-features { flex-direction: column; align-items: center; gap: 1rem; }
+            .hero-feature { width: 100%; max-width: 320px; }
+            .sp-hide { display: none; }
             .features-grid, .properties-grid { grid-template-columns: 1fr; }
             .form-row, .result-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; }
@@ -314,12 +427,13 @@
                         <span class="logo-sub">Beauty Real Estate</span>
                     </div>
                 </a>
-                <nav class="nav-links">
-                    <a href="#features">特徴</a>
-                    <a href="#diagnostic">診断</a>
-                    <a href="#properties">物件</a>
-                    <a href="#process">流れ</a>
-                    <a href="#contact" class="nav-cta">お問合せ</a>
+                <nav class="nav-links" id="navMenu">
+                    <a href="#" id="philosophyLink" data-i18n="nav.philosophy">理念</a>
+                    <a href="#features" data-i18n="nav.features">特徴</a>
+                    <a href="#diagnostic" data-i18n="nav.diagnostic">診断</a>
+                    <a href="#properties" data-i18n="nav.properties">物件</a>
+                    <a href="#process" data-i18n="nav.process">流れ</a>
+                    <a href="#contact" class="nav-cta" data-i18n="nav.contact">お問合せ</a>
                 </nav>
                 <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
             </div>
@@ -330,70 +444,78 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-kicker">Beauty Salon Real Estate</div>
-                <h1 class="hero-title">美容サロン開業を、<br>もっとシンプルに。</h1>
-                <p class="hero-lead">サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。<br>無駄なく、迷いなく、理想のサロンを実現します。</p>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" data-count="2847">0</div>
-                        <div class="hero-stat-label">取扱物件数</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value" data-count="1523">0</div>
-                        <div class="hero-stat-label">成約実績</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-value"><span data-count="94">0</span>%</div>
-                        <div class="hero-stat-label">融資成功率</div>
-                    </div>
-                </div>
+                <div class="hero-kicker" data-i18n="hero.kicker">美容師×宅建士が始めた不動産会社</div>
+                <h1 class="hero-title" data-i18n="hero.title">はじめまして！<br>どんなサロン物件を<br>お探しですか？</h1>
+                <p class="hero-lead" data-i18n="hero.lead">居抜き・スケルトン・シェアサロンまで。<br class="sp-hide">あなたにぴったりの物件をご紹介します。</p>
+                
                 <div class="hero-buttons">
-                    <a href="#diagnostic" class="btn btn-primary">5分で開業診断</a>
-                    <a href="#properties" class="btn btn-secondary">物件を見る</a>
-                    <a href="#" class="btn btn-line">LINE相談</a>
+                    <a href="#diagnostic" class="btn btn-primary" data-i18n="btn.diagnostic">開業診断してみる</a>
+                    <a href="#properties" class="btn btn-secondary" data-i18n="btn.properties">物件を探す</a>
+                    <a href="#contact" class="btn btn-line" data-i18n="btn.line">LINE相談</a>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Philosophy Modal -->
+    <div id="philosophyModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2 class="modal-title">Our Philosophy</h2>
+                <p class="modal-lead">美容師×宅建士が始めた不動産会社</p>
+                <div class="modal-text">
+                    <p>「美容師として独立したいけど、物件探しが難しい」<br>その悩み、私たちもよく知っています。</p>
+                    <p>元美容師だからこそわかる、サロン経営に本当に必要な立地・設備・条件。宅建士の知識を活かして、あなたの開業を物件探しから全力でサポートします。</p>
+                    <ul class="modal-values">
+                        <li><strong>おとり物件ゼロ</strong> — すべての掲載物件は現地確認済み</li>
+                        <li><strong>元美容師が即レス対応</strong> — 現場目線でアドバイス</li>
+                        <li><strong>シェアサロンもOK</strong> — まずは小さく始めたい方も</li>
+                        <li><strong>明朗会計</strong> — 隠れた費用は一切なし</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Features -->
     <section id="features" class="section-white">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-kicker">Features</div>
-                <h2 class="section-title">SalonXが選ばれる理由</h2>
-                <p class="section-lead">美容サロン開業に特化した専門サービスで、あなたの夢を確実に形にします。</p>
+                <div class="section-kicker" data-i18n="features.kicker">Features</div>
+                <h2 class="section-title" data-i18n="features.title">SalonXが選ばれる理由</h2>
+                <p class="section-lead" data-i18n="features.lead">美容サロン開業に特化した専門サービスで、あなたの夢を確実に形にします。</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div>
-                    <h3 class="feature-title">おとり物件ゼロ</h3>
-                    <p class="feature-desc">すべての掲載物件は現地確認済み。存在しない物件でお客様の時間を奪うことは一切ありません。</p>
+                    <h3 class="feature-title" data-i18n="feature1.title">おとり物件ゼロ</h3>
+                    <p class="feature-desc" data-i18n="feature1.desc">すべての掲載物件は現地確認済み。存在しない物件でお客様の時間を奪うことは一切ありません。</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                    <h3 class="feature-title">5分開業診断</h3>
-                    <p class="feature-desc">目標客数と客単価から、最適な家賃帯と初期資金を即座に算出。事業計画の第一歩を支援します。</p>
+                    <h3 class="feature-title" data-i18n="feature2.title">５分開業診断</h3>
+                    <p class="feature-desc" data-i18n="feature2.desc">目標客数と客単価から、最適な家賃帯と初期資金を即座に算出。事業計画の第一歩を支援します。</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                    <h3 class="feature-title">LINE即レス対応</h3>
-                    <p class="feature-desc">新着物件情報をLINEでリアルタイム通知。気になる物件はそのままチャットで内見予約が可能です。</p>
+                    <h3 class="feature-title" data-i18n="feature3.title">LINE即レス対応</h3>
+                    <p class="feature-desc" data-i18n="feature3.desc">新着物件情報をLINEでリアルタイム通知。気になる物件はそのままチャットで内見予約が可能です。</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                    <h3 class="feature-title">居抜き物件査定</h3>
-                    <p class="feature-desc">独自のネットワークで居抜き物件を多数確保。造作譲渡のマッチングで初期費用を大幅削減。</p>
+                    <h3 class="feature-title" data-i18n="feature4.title">居抜き物件査定</h3>
+                    <p class="feature-desc" data-i18n="feature4.desc">独自のネットワークで居抜き物件を多数確保。造作譲渡のマッチングで初期費用を大幅削減。</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-                    <h3 class="feature-title">融資サポート</h3>
-                    <p class="feature-desc">日本政策金融公庫をはじめとする融資申請を全面サポート。成功率94%以上の実績があります。</p>
+                    <h3 class="feature-title" data-i18n="feature5.title">融資サポート</h3>
+                    <p class="feature-desc" data-i18n="feature5.desc">日本政策金融公庫をはじめとする融資申請を全面サポート。成功率94%以上の実績があります。</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-                    <h3 class="feature-title">内見レポート自動生成</h3>
-                    <p class="feature-desc">内見後にPDFレポートを自動生成。物件比較や融資相談に必要な資料作成の手間を省きます。</p>
+                    <h3 class="feature-title" data-i18n="feature6.title">内見レポート自動生成</h3>
+                    <p class="feature-desc" data-i18n="feature6.desc">内見後にPDFレポートを自動生成。物件比較や融資相談に必要な資料作成の手間を省きます。</p>
                 </div>
             </div>
         </div>
@@ -403,39 +525,57 @@
     <section id="diagnostic" class="section-dark">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-kicker">Diagnostic</div>
-                <h2 class="section-title">5分でわかる開業診断</h2>
-                <p class="section-lead">目標の数字を入力するだけで、理想の家賃帯と必要資金が見えてきます。</p>
+                <div class="section-kicker" data-i18n="diagnostic.kicker">Diagnostic</div>
+                <h2 class="section-title" data-i18n="diagnostic.title">５分でわかる開業診断</h2>
+                <p class="section-lead" data-i18n="diagnostic.lead">目標の数字を入力するだけで、理想の家賃帯と必要資金が見えてきます。</p>
             </div>
             <div class="diagnostic-content reveal">
                 <div class="diagnostic-form">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>月間目標客数</label>
-                            <input type="number" id="clients" placeholder="100" value="100">
-                            <span class="form-unit">人/月</span>
+                            <label data-i18n="diag.daily">1日の目標客数</label>
+                            <input type="number" id="dailyClients" placeholder="5" value="5">
+                            <span class="form-unit" data-i18n="diag.daily.unit">人/日</span>
                         </div>
                         <div class="form-group">
-                            <label>平均客単価</label>
+                            <label data-i18n="diag.workdays">月間営業日数</label>
+                            <input type="number" id="workDays" placeholder="22" value="22">
+                            <span class="form-unit" data-i18n="diag.workdays.unit">日/月</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="diag.price">平均客単価</label>
                             <input type="number" id="price" placeholder="8000" value="8000">
-                            <span class="form-unit">円</span>
+                            <span class="form-unit" data-i18n="diag.price.unit">円</span>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="diag.type">物件タイプ</label>
+                            <select id="propertyType">
+                                <option value="turnkey" data-i18n="diag.turnkey">居抜き（内装費少）</option>
+                                <option value="skeleton" data-i18n="diag.skeleton">スケルトン（内装費大）</option>
+                            </select>
                         </div>
                     </div>
                     <div class="diagnostic-result">
                         <div class="result-grid">
                             <div class="result-item">
-                                <div class="result-label">予想月商</div>
-                                <div class="result-value" id="revenue">¥800,000</div>
+                                <div class="result-label" data-i18n="diag.revenue">予想月商</div>
+                                <div class="result-value" id="revenue">¥880,000</div>
                             </div>
                             <div class="result-item">
-                                <div class="result-label">適正家賃</div>
-                                <div class="result-value" id="rent">¥120,000</div>
-                            </div>
-                            <div class="result-item">
-                                <div class="result-label">想定初期資金</div>
-                                <div class="result-value" id="capital">¥3,600,000</div>
+                                <div class="result-label" data-i18n="diag.rent">適正家賃</div>
+                                <div class="result-value" id="rent">¥132,000</div>
                             </div>
                         </div>
+                        <div class="result-breakdown">
+                            <div class="result-title" data-i18n="diag.breakdown">想定初期資金の内訳</div>
+                            <div class="breakdown-row"><span data-i18n="diag.deposit">保証金（家賃6ヶ月）</span><span id="deposit">¥792,000</span></div>
+                            <div class="breakdown-row"><span data-i18n="diag.interior">内装費（概算）</span><span id="interior">¥1,500,000</span></div>
+                            <div class="breakdown-row"><span data-i18n="diag.working">運転資金（3ヶ月）</span><span id="working">¥396,000</span></div>
+                            <div class="breakdown-row total"><span data-i18n="diag.total">合計</span><span id="capital">¥2,688,000</span></div>
+                        </div>
+                        <p class="diagnostic-note" data-i18n="diag.note">※ 実際の費用は物件や条件により異なります。詳細はお問い合わせください。</p>
                     </div>
                 </div>
             </div>
@@ -446,19 +586,27 @@
     <section id="properties" class="section-blush">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-kicker">Properties</div>
-                <h2 class="section-title">最新の物件情報</h2>
-                <p class="section-lead">厳選されたサロン向け物件をご紹介。すべて現地確認済みです。</p>
+                <div class="section-kicker" data-i18n="properties.kicker">Properties</div>
+                <h2 class="section-title" data-i18n="properties.title">最新の物件情報</h2>
+                <p class="section-lead" data-i18n="properties.lead">厳選されたサロン向け物件をご紹介。すべて現地確認済みです。</p>
             </div>
             <div class="property-filters reveal">
-                <button class="filter-btn active" data-filter="all">すべて</button>
-                <button class="filter-btn" data-filter="skeleton">スケルトン</button>
-                <button class="filter-btn" data-filter="turnkey">居抜き</button>
-                <button class="filter-btn" data-filter="street">路面店</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="filter.all">すべて</button>
+                <button class="filter-btn" data-filter="skeleton" data-i18n="filter.skeleton">スケルトン</button>
+                <button class="filter-btn" data-filter="turnkey" data-i18n="filter.turnkey">居抜き</button>
+                <button class="filter-btn" data-filter="street" data-i18n="filter.street">路面店</button>
+                <button class="filter-btn" data-filter="share" data-i18n="filter.share">シェアサロン</button>
+                <button class="filter-btn favorite-filter" data-filter="favorite">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    <span data-i18n="filter.favorite">お気に入り</span>
+                </button>
             </div>
             <div class="properties-grid">
                 <!-- SOLD Property -->
-                <div class="property-card reveal sold" data-type="turnkey">
+                <div class="property-card reveal sold" data-type="turnkey" data-id="1">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="sold-ribbon">SOLD</div>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600" alt="Property">
@@ -473,7 +621,10 @@
                 </div>
                 
                 <!-- Available Property -->
-                <div class="property-card reveal" data-type="skeleton">
+                <div class="property-card reveal" data-type="skeleton" data-id="2">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600" alt="Property">
                         <span class="property-tag skeleton">スケルトン</span>
@@ -487,7 +638,10 @@
                 </div>
                 
                 <!-- Available Property -->
-                <div class="property-card reveal" data-type="street">
+                <div class="property-card reveal" data-type="street" data-id="3">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1633681926035-ec1ac984418a?w=600" alt="Property">
                         <span class="property-tag street">路面店</span>
@@ -501,7 +655,10 @@
                 </div>
                 
                 <!-- SOLD Property -->
-                <div class="property-card reveal sold" data-type="turnkey">
+                <div class="property-card reveal sold" data-type="turnkey" data-id="4">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="sold-ribbon">SOLD</div>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600" alt="Property">
@@ -516,7 +673,10 @@
                 </div>
                 
                 <!-- Available Property -->
-                <div class="property-card reveal" data-type="skeleton">
+                <div class="property-card reveal" data-type="skeleton" data-id="5">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600" alt="Property">
                         <span class="property-tag skeleton">スケルトン</span>
@@ -530,7 +690,10 @@
                 </div>
                 
                 <!-- Available Property -->
-                <div class="property-card reveal" data-type="street">
+                <div class="property-card reveal" data-type="street" data-id="6">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
                     <div class="property-image">
                         <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600" alt="Property">
                         <span class="property-tag street">路面店</span>
@@ -542,6 +705,40 @@
                         <div class="property-price"><span class="property-price-label">賃料</span><span class="property-price-value">¥168,000/月</span></div>
                     </div>
                 </div>
+                
+                <!-- Share Salon -->
+                <div class="property-card reveal" data-type="share" data-id="7">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600" alt="Property">
+                        <span class="property-tag share">シェア</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">EBISU</div>
+                        <h3 class="property-name">恵比寿 シェアサロン</h3>
+                        <div class="property-details"><span>1席</span><span>5F</span><span>徒歩3分</span></div>
+                        <div class="property-price"><span class="property-price-label">月額</span><span class="property-price-value">¥55,000/月</span></div>
+                    </div>
+                </div>
+                
+                <!-- Share Salon 2 -->
+                <div class="property-card reveal" data-type="share" data-id="8">
+                    <button class="favorite-btn" aria-label="お気に入りに追加">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600" alt="Property">
+                        <span class="property-tag share">シェア</span>
+                    </div>
+                    <div class="property-content">
+                        <div class="property-area">OMOTESANDO</div>
+                        <h3 class="property-name">表参道 シェアサロン</h3>
+                        <div class="property-details"><span>1席</span><span>3F</span><span>徒歩1分</span></div>
+                        <div class="property-price"><span class="property-price-label">月額</span><span class="property-price-value">¥75,000/月</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -550,16 +747,16 @@
     <section id="process" class="section-white">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-kicker">Process</div>
-                <h2 class="section-title">ご利用の流れ</h2>
-                <p class="section-lead">お問い合わせから開業まで、一貫してサポートいたします。</p>
+                <div class="section-kicker" data-i18n="process.kicker">Process</div>
+                <h2 class="section-title" data-i18n="process.title">ご利用の流れ</h2>
+                <p class="section-lead" data-i18n="process.lead">お問い合わせから開業まで、一貫してサポートいたします。</p>
             </div>
             <div class="process-list reveal">
-                <div class="process-item"><div class="process-number">01</div><div class="process-content"><h3 class="process-title">無料相談・ヒアリング</h3><p class="process-desc">LINEまたはお電話で、ご希望のエリア・予算・サロンのコンセプトをお聞かせください。</p></div></div>
-                <div class="process-item"><div class="process-number">02</div><div class="process-content"><h3 class="process-title">物件のご提案</h3><p class="process-desc">ご要望に合った物件を厳選してご紹介。非公開物件もご案内可能です。</p></div></div>
-                <div class="process-item"><div class="process-number">03</div><div class="process-content"><h3 class="process-title">内見・現地確認</h3><p class="process-desc">実際に物件をご覧いただき、設備や周辺環境をご確認。内見レポートをお渡しします。</p></div></div>
-                <div class="process-item"><div class="process-number">04</div><div class="process-content"><h3 class="process-title">契約・融資サポート</h3><p class="process-desc">契約交渉から融資申請まで全面サポート。有利な条件を引き出します。</p></div></div>
-                <div class="process-item"><div class="process-number">05</div><div class="process-content"><h3 class="process-title">開業・アフターフォロー</h3><p class="process-desc">内装業者や機器メーカーのご紹介も可能。開業後もサポートを継続します。</p></div></div>
+                <div class="process-item"><div class="process-number">01</div><div class="process-content"><h3 class="process-title" data-i18n="step1.title">無料相談・ヒアリング</h3><p class="process-desc" data-i18n="step1.desc">LINEまたはお電話で、ご希望のエリア・予算・サロンのコンセプトをお聞かせください。</p></div></div>
+                <div class="process-item"><div class="process-number">02</div><div class="process-content"><h3 class="process-title" data-i18n="step2.title">物件のご提案</h3><p class="process-desc" data-i18n="step2.desc">ご要望に合った物件を厳選してご紹介。非公開物件もご案内可能です。</p></div></div>
+                <div class="process-item"><div class="process-number">03</div><div class="process-content"><h3 class="process-title" data-i18n="step3.title">内見・現地確認</h3><p class="process-desc" data-i18n="step3.desc">実際に物件をご覧いただき、設備や周辺環境をご確認。内見レポートをお渡しします。</p></div></div>
+                <div class="process-item"><div class="process-number">04</div><div class="process-content"><h3 class="process-title" data-i18n="step4.title">契約・融資サポート</h3><p class="process-desc" data-i18n="step4.desc">契約交渉から融資申請まで全面サポート。有利な条件を引き出します。</p></div></div>
+                <div class="process-item"><div class="process-number">05</div><div class="process-content"><h3 class="process-title" data-i18n="step5.title">開業・アフターフォロー</h3><p class="process-desc" data-i18n="step5.desc">内装業者や機器メーカーのご紹介も可能。開業後もサポートを継続します。</p></div></div>
             </div>
         </div>
     </section>
@@ -568,29 +765,29 @@
     <section id="contact" class="section-cream">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-kicker">Contact</div>
-                <h2 class="section-title">お問い合わせ</h2>
-                <p class="section-lead">まずはお気軽にご相談ください。専門スタッフが対応いたします。</p>
+                <div class="section-kicker" data-i18n="contact.kicker">Contact</div>
+                <h2 class="section-title" data-i18n="contact.title">お問い合わせ</h2>
+                <p class="section-lead" data-i18n="contact.lead">まずはお気軽にご相談ください。専門スタッフが対応いたします。</p>
             </div>
             <div class="contact-grid">
                 <div class="contact-info reveal">
-                    <h3>サロン開業のご相談は<br>SalonXへ</h3>
-                    <p class="contact-text">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。LINEでのお問い合わせが便利です。</p>
+                    <h3 data-i18n="contact.heading">サロン開業のご相談は<br>SalonXへ</h3>
+                    <p class="contact-text" data-i18n="contact.text">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。LINEでのお問い合わせが便利です。</p>
                     <div class="contact-list">
                         <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="contact-item-label">Address</div><div class="contact-item-value">東京都渋谷区神宮前1-2-3</div></div></div>
                         <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="contact-item-label">Tel</div><div class="contact-item-value">03-1234-5678</div></div></div>
-                        <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31585f575e7142505d5e5f491f5b41">[email&#160;protected]</a></div></div></div>
+                        <div class="contact-item"><div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-item-label">Email</div><div class="contact-item-value">info@salonx.jp</div></div></div>
                         <div class="contact-item"><div class="contact-icon line"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div><div class="contact-item-label">LINE</div><div class="contact-item-value">@salonx</div></div></div>
                     </div>
                 </div>
                 <div class="contact-form-wrapper reveal">
                     <form class="contact-form" id="contactForm">
-                        <div class="form-group"><label>お名前 *</label><input type="text" name="name" required></div>
-                        <div class="form-group"><label>メールアドレス *</label><input type="email" name="email" required></div>
-                        <div class="form-group"><label>電話番号</label><input type="tel" name="phone"></div>
-                        <div class="form-group"><label>お問い合わせ種別</label><select name="type"><option value="property">物件のご相談</option><option value="consultation">開業のご相談</option><option value="loan">融資のご相談</option><option value="other">その他</option></select></div>
-                        <div class="form-group"><label>お問い合わせ内容</label><textarea name="message" rows="4"></textarea></div>
-                        <button type="submit" class="btn btn-primary">送信する</button>
+                        <div class="form-group"><label data-i18n="form.name">お名前 *</label><input type="text" name="name" required></div>
+                        <div class="form-group"><label data-i18n="form.email">メールアドレス *</label><input type="email" name="email" required></div>
+                        <div class="form-group"><label data-i18n="form.phone">電話番号</label><input type="tel" name="phone"></div>
+                        <div class="form-group"><label data-i18n="form.type">お問い合わせ種別</label><select name="type"><option value="property" data-i18n="form.type.property">物件のご相談</option><option value="consultation" data-i18n="form.type.consultation">開業のご相談</option><option value="loan" data-i18n="form.type.loan">融資のご相談</option><option value="other" data-i18n="form.type.other">その他</option></select></div>
+                        <div class="form-group"><label data-i18n="form.message">お問い合わせ内容</label><textarea name="message" rows="4"></textarea></div>
+                        <button type="submit" class="btn btn-primary" data-i18n="form.submit">送信する</button>
                     </form>
                 </div>
             </div>
@@ -601,12 +798,12 @@
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><div class="footer-logo">Salon<span>X</span></div><p class="footer-desc">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。</p></div>
-                <div><h4 class="footer-title">Menu</h4><div class="footer-links"><a href="#features">特徴</a><a href="#diagnostic">開業診断</a><a href="#properties">物件情報</a><a href="#process">ご利用の流れ</a><a href="#contact">お問い合わせ</a></div></div>
-                <div><h4 class="footer-title">Service</h4><div class="footer-links"><a href="#">物件紹介</a><a href="#">居抜きマッチング</a><a href="#">融資サポート</a><a href="#">開業コンサルティング</a></div></div>
-                <div><h4 class="footer-title">Company</h4><div class="footer-links"><a href="https://v8corp.jp" target="_blank">V8 Corporation</a><a href="#">会社概要</a><a href="#">採用情報</a><a href="#">プライバシーポリシー</a></div></div>
+                <div class="footer-brand"><div class="footer-logo">Salon<span>X</span></div><p class="footer-desc" data-i18n="footer.desc">美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。</p></div>
+                <div><h4 class="footer-title">Menu</h4><div class="footer-links"><a href="#features" data-i18n="footer.features">特徴</a><a href="#diagnostic" data-i18n="footer.diagnostic">開業診断</a><a href="#properties" data-i18n="footer.properties">物件情報</a><a href="#process" data-i18n="footer.process">ご利用の流れ</a><a href="#contact" data-i18n="footer.contact">お問い合わせ</a></div></div>
+                <div><h4 class="footer-title">Service</h4><div class="footer-links"><a href="#" data-i18n="footer.service1">物件紹介</a><a href="#" data-i18n="footer.service2">居抜きマッチング</a><a href="#" data-i18n="footer.service3">融資サポート</a><a href="#" data-i18n="footer.service4">開業コンサルティング</a></div></div>
+                <div><h4 class="footer-title">Company</h4><div class="footer-links"><a href="https://v8corp.jp" target="_blank">V8 Corporation</a><a href="#" data-i18n="footer.about">会社概要</a><a href="#" data-i18n="footer.careers">採用情報</a><a href="#" data-i18n="footer.privacy">プライバシーポリシー</a></div></div>
             </div>
-            <div class="footer-bottom"><div class="footer-copyright">© 2024 SalonX by V8 Corporation. All rights reserved.</div><div class="footer-legal"><a href="#">特定商取引法に基づく表記</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a></div></div>
+            <div class="footer-bottom"><div class="footer-copyright">© 2024 SalonX by V8 Corporation. All rights reserved.</div><div class="footer-legal"><a href="#" data-i18n="footer.legal1">特定商取引法に基づく表記</a><a href="#" data-i18n="footer.legal2">利用規約</a><a href="#" data-i18n="footer.legal3">プライバシーポリシー</a></div></div>
         </div>
     </footer>
 
@@ -617,7 +814,7 @@
         <a href="#" class="float-btn top" id="scrollTop" title="トップへ"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></a>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         window.addEventListener('scroll', () => {
             const scrollTop = document.documentElement.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -629,14 +826,445 @@
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         const counterObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const target = parseInt(entry.target.getAttribute('data-count')); let current = 0; const increment = target / 40; const timer = setInterval(() => { current += increment; if (current >= target) { entry.target.textContent = target.toLocaleString(); clearInterval(timer); } else { entry.target.textContent = Math.floor(current).toLocaleString(); } }, 30); counterObserver.unobserve(entry.target); } }); }, { threshold: 0.5 });
         document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
-        const clientsInput = document.getElementById('clients'); const priceInput = document.getElementById('price');
-        function calculate() { const clients = parseInt(clientsInput.value) || 0; const price = parseInt(priceInput.value) || 0; const revenue = clients * price; const rent = Math.round(revenue * 0.15); const capital = rent * 30; document.getElementById('revenue').textContent = '¥' + revenue.toLocaleString(); document.getElementById('rent').textContent = '¥' + rent.toLocaleString(); document.getElementById('capital').textContent = '¥' + capital.toLocaleString(); }
-        clientsInput.addEventListener('input', calculate); priceInput.addEventListener('input', calculate);
-        document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const filter = btn.getAttribute('data-filter'); document.querySelectorAll('.property-card').forEach(card => { card.style.display = (filter === 'all' || card.getAttribute('data-type') === filter) ? 'block' : 'none'; }); }); });
+        const dailyClientsInput = document.getElementById('dailyClients');
+        const workDaysInput = document.getElementById('workDays');
+        const priceInput = document.getElementById('price');
+        const propertyTypeInput = document.getElementById('propertyType');
+        
+        function calculate() {
+            const dailyClients = parseInt(dailyClientsInput.value) || 0;
+            const workDays = parseInt(workDaysInput.value) || 0;
+            const price = parseInt(priceInput.value) || 0;
+            const propertyType = propertyTypeInput.value;
+            
+            // 月商 = 1日客数 × 営業日数 × 客単価
+            const revenue = dailyClients * workDays * price;
+            
+            // 家賃目安 = 月商の15%
+            const rent = Math.round(revenue * 0.15);
+            
+            // 保証金 = 家賃6ヶ月
+            const deposit = rent * 6;
+            
+            // 内装費（物件タイプ別）
+            let interior = 0;
+            if (propertyType === 'turnkey') interior = 1500000;      // 居抜き: 150万
+            else if (propertyType === 'skeleton') interior = 5000000; // スケルトン: 500万
+            
+            // 運転資金 = 家賃3ヶ月分
+            const working = rent * 3;
+            
+            // 合計
+            const capital = deposit + interior + working;
+            
+            document.getElementById('revenue').textContent = '¥' + revenue.toLocaleString();
+            document.getElementById('rent').textContent = '¥' + rent.toLocaleString();
+            document.getElementById('deposit').textContent = '¥' + deposit.toLocaleString();
+            document.getElementById('interior').textContent = '¥' + interior.toLocaleString();
+            document.getElementById('working').textContent = '¥' + working.toLocaleString();
+            document.getElementById('capital').textContent = '¥' + capital.toLocaleString();
+        }
+        
+        dailyClientsInput.addEventListener('input', calculate);
+        workDaysInput.addEventListener('input', calculate);
+        priceInput.addEventListener('input', calculate);
+        propertyTypeInput.addEventListener('change', calculate);
+        // Favorites
+        let favorites = JSON.parse(localStorage.getItem('salonx-favorites') || '[]');
+        
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const card = btn.closest('.property-card');
+                const id = card.getAttribute('data-id');
+                if (favorites.includes(id)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.property-card');
+                const id = card.getAttribute('data-id');
+                if (favorites.includes(id)) {
+                    favorites = favorites.filter(f => f !== id);
+                    btn.classList.remove('active');
+                } else {
+                    favorites.push(id);
+                    btn.classList.add('active');
+                }
+                localStorage.setItem('salonx-favorites', JSON.stringify(favorites));
+            });
+        });
+        
+        updateFavoriteButtons();
+        
+        // Filters with favorites
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                document.querySelectorAll('.property-card').forEach(card => {
+                    const type = card.getAttribute('data-type');
+                    const id = card.getAttribute('data-id');
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else if (filter === 'favorite') {
+                        card.style.display = favorites.includes(id) ? 'block' : 'none';
+                    } else {
+                        card.style.display = type === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
         document.getElementById('contactForm').addEventListener('submit', (e) => { e.preventDefault(); alert('お問い合わせを受け付けました。担当者より折り返しご連絡いたします。'); });
-        document.querySelectorAll('.lang-switch button').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }); });
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const href = this.getAttribute('href'); if (href !== '#') { e.preventDefault(); const target = document.querySelector(href); if (target) { const offset = document.getElementById('header').offsetHeight + 20; window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' }); } } }); });
-        document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('navMenu').classList.toggle('active'); });
+        // Translations
+        const translations = {
+            ja: {
+                'hero.kicker': '美容師×宅建士が始めた不動産会社',
+                'hero.title': 'はじめまして！<br>どんなサロン物件を<br>お探しですか？',
+                'hero.lead': '居抜き・スケルトン・シェアサロンまで。<br class="sp-hide">あなたにぴったりの物件をご紹介します。',
+                'btn.diagnostic': '開業診断してみる',
+                'btn.properties': '物件を探す',
+                'btn.line': 'LINE相談',
+                'nav.philosophy': '理念',
+                'nav.features': '特徴',
+                'nav.diagnostic': '診断',
+                'nav.properties': '物件',
+                'nav.process': '流れ',
+                'nav.contact': 'お問合せ',
+                'features.kicker': 'Why Choose Us',
+                'features.title': 'SalonXが選ばれる理由',
+                'features.lead': '美容サロン開業に特化した専門サービスで、あなたの夢を確実に形にします。',
+                'diagnostic.kicker': 'Diagnostic',
+                'diagnostic.title': '５分でわかる開業診断',
+                'diagnostic.lead': '目標の数字を入力するだけで、理想の家賃帯と必要資金が見えてきます。',
+                'properties.kicker': 'Properties',
+                'properties.title': '最新の物件情報',
+                'properties.lead': '厳選されたサロン向け物件をご紹介。すべて現地確認済みです。',
+                'filter.all': 'すべて',
+                'filter.skeleton': 'スケルトン',
+                'filter.turnkey': '居抜き',
+                'filter.street': '路面店',
+                'filter.share': 'シェアサロン',
+                'filter.favorite': 'お気に入り',
+                'process.kicker': 'Process',
+                'process.title': 'ご利用の流れ',
+                'process.lead': 'お問い合わせから開業まで、一貫してサポートいたします。',
+                'contact.kicker': 'Contact',
+                'contact.title': 'お問い合わせ',
+                'contact.lead': 'まずはお気軽にご相談ください。専門スタッフが対応いたします。',
+                'feature1.title': 'おとり物件ゼロ',
+                'feature1.desc': 'すべての掲載物件は現地確認済み。存在しない物件でお客様の時間を奪うことは一切ありません。',
+                'feature2.title': '５分開業診断',
+                'feature2.desc': '目標客数と客単価から、最適な家賃帯と初期資金を即座に算出。事業計画の第一歩を支援します。',
+                'feature3.title': 'LINE即レス対応',
+                'feature3.desc': '新着物件情報をLINEでリアルタイム通知。気になる物件はそのままチャットで内見予約が可能です。',
+                'feature4.title': '居抜き物件査定',
+                'feature4.desc': '独自のネットワークで居抜き物件を多数確保。造作譲渡のマッチングで初期費用を大幅削減。',
+                'feature5.title': '融資サポート',
+                'feature5.desc': '日本政策金融公庫をはじめとする融資申請を全面サポート。成功率94%以上の実績があります。',
+                'feature6.title': '内見レポート自動生成',
+                'feature6.desc': '内見後にPDFレポートを自動生成。物件比較や融資相談に必要な資料作成の手間を省きます。',
+                'diag.daily': '1日の目標客数',
+                'diag.daily.unit': '人/日',
+                'diag.workdays': '月間営業日数',
+                'diag.workdays.unit': '日/月',
+                'diag.price': '平均客単価',
+                'diag.price.unit': '円',
+                'diag.type': '物件タイプ',
+                'diag.turnkey': '居抜き（内装費少）',
+                'diag.skeleton': 'スケルトン（内装費大）',
+                'diag.revenue': '予想月商',
+                'diag.rent': '適正家賃',
+                'diag.breakdown': '想定初期資金の内訳',
+                'diag.deposit': '保証金（家賃6ヶ月）',
+                'diag.interior': '内装費（概算）',
+                'diag.working': '運転資金（3ヶ月）',
+                'diag.total': '合計',
+                'diag.note': '※ 実際の費用は物件や条件により異なります。詳細はお問い合わせください。',
+                'step1.title': '無料相談・ヒアリング',
+                'step1.desc': 'LINEまたはお電話で、ご希望のエリア・予算・サロンのコンセプトをお聞かせください。',
+                'step2.title': '物件のご提案',
+                'step2.desc': 'ご要望に合った物件を厳選してご紹介。非公開物件もご案内可能です。',
+                'step3.title': '内見・現地確認',
+                'step3.desc': '実際に物件をご覧いただき、設備や周辺環境をご確認。内見レポートをお渡しします。',
+                'step4.title': '契約・融資サポート',
+                'step4.desc': '契約交渉から融資申請まで全面サポート。有利な条件を引き出します。',
+                'step5.title': '開業・アフターフォロー',
+                'step5.desc': '内装業者や機器メーカーのご紹介も可能。開業後もサポートを継続します。',
+                'contact.heading': 'サロン開業のご相談は<br>SalonXへ',
+                'contact.text': '美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。LINEでのお問い合わせが便利です。',
+                'form.name': 'お名前 *',
+                'form.email': 'メールアドレス *',
+                'form.phone': '電話番号',
+                'form.type': 'お問い合わせ種別',
+                'form.type.property': '物件のご相談',
+                'form.type.consultation': '開業のご相談',
+                'form.type.loan': '融資のご相談',
+                'form.type.other': 'その他',
+                'form.message': 'お問い合わせ内容',
+                'form.submit': '送信する',
+                'footer.desc': '美容サロン専門の不動産ブローカーとして、物件探しから開業までをワンストップでサポート。',
+                'footer.features': '特徴',
+                'footer.diagnostic': '開業診断',
+                'footer.properties': '物件情報',
+                'footer.process': 'ご利用の流れ',
+                'footer.contact': 'お問い合わせ',
+                'footer.service1': '物件紹介',
+                'footer.service2': '居抜きマッチング',
+                'footer.service3': '融資サポート',
+                'footer.service4': '開業コンサルティング',
+                'footer.about': '会社概要',
+                'footer.careers': '採用情報',
+                'footer.privacy': 'プライバシーポリシー',
+                'footer.legal1': '特定商取引法に基づく表記',
+                'footer.legal2': '利用規約',
+                'footer.legal3': 'プライバシーポリシー'
+            },
+            en: {
+                'hero.kicker': 'Real Estate by Hairstylist × Licensed Agent',
+                'hero.title': 'Hello!<br>What kind of salon space<br>are you looking for?',
+                'hero.lead': 'From turnkey to skeleton to shared salons.<br class="sp-hide">We\'ll find the perfect fit for you.',
+                'btn.diagnostic': 'Try Our Calculator',
+                'btn.properties': 'Browse Properties',
+                'btn.line': 'LINE Chat',
+                'nav.philosophy': 'About',
+                'nav.features': 'Features',
+                'nav.diagnostic': 'Calculator',
+                'nav.properties': 'Properties',
+                'nav.process': 'Process',
+                'nav.contact': 'Contact',
+                'features.kicker': 'Why Choose Us',
+                'features.title': 'Why Choose SalonX',
+                'features.lead': 'Specialized in beauty salons—we understand your needs.',
+                'diagnostic.kicker': 'Diagnostic',
+                'diagnostic.title': '5-Minute Startup Calculator',
+                'diagnostic.lead': 'Enter your goals to see ideal rent range and required capital.',
+                'properties.kicker': 'Properties',
+                'properties.title': 'Latest Properties',
+                'properties.lead': 'Curated salon-ready spaces. All verified in person.',
+                'filter.all': 'All',
+                'filter.skeleton': 'Skeleton',
+                'filter.turnkey': 'Turnkey',
+                'filter.street': 'Street Level',
+                'filter.share': 'Shared Salon',
+                'filter.favorite': 'Favorites',
+                'process.kicker': 'Process',
+                'process.title': 'How It Works',
+                'process.lead': 'From inquiry to opening—we support you all the way.',
+                'contact.kicker': 'Contact',
+                'contact.title': 'Get In Touch',
+                'contact.lead': 'Feel free to reach out. Our specialists will assist you.',
+                'feature1.title': 'No Fake Listings',
+                'feature1.desc': 'All listed properties are verified in person. We never waste your time with non-existent listings.',
+                'feature2.title': '5-Min Startup Calc',
+                'feature2.desc': 'Calculate optimal rent and initial capital instantly based on target clients and pricing.',
+                'feature3.title': 'LINE Instant Reply',
+                'feature3.desc': 'Get real-time notifications for new properties via LINE. Book viewings directly through chat.',
+                'feature4.title': 'Turnkey Valuation',
+                'feature4.desc': 'Access our extensive network of turnkey properties. Match fixtures transfers to reduce costs.',
+                'feature5.title': 'Loan Support',
+                'feature5.desc': 'Full support for loan applications including Japan Finance Corporation. Over 94% success rate.',
+                'feature6.title': 'Auto Viewing Reports',
+                'feature6.desc': 'PDF reports generated automatically after viewings. Save time on documentation for comparisons.',
+                'diag.daily': 'Daily Target Clients',
+                'diag.daily.unit': '/day',
+                'diag.workdays': 'Working Days/Month',
+                'diag.workdays.unit': 'days',
+                'diag.price': 'Avg. Price/Client',
+                'diag.price.unit': 'JPY',
+                'diag.type': 'Property Type',
+                'diag.turnkey': 'Turnkey (Lower Renovation)',
+                'diag.skeleton': 'Skeleton (Higher Renovation)',
+                'diag.revenue': 'Est. Monthly Revenue',
+                'diag.rent': 'Ideal Rent',
+                'diag.breakdown': 'Initial Capital Breakdown',
+                'diag.deposit': 'Deposit (6 months rent)',
+                'diag.interior': 'Renovation (estimate)',
+                'diag.working': 'Working Capital (3 months)',
+                'diag.total': 'Total',
+                'diag.note': '* Actual costs vary by property and conditions. Contact us for details.',
+                'step1.title': 'Free Consultation',
+                'step1.desc': 'Tell us your preferred area, budget, and salon concept via LINE or phone.',
+                'step2.title': 'Property Proposals',
+                'step2.desc': 'We\'ll curate properties matching your needs, including off-market listings.',
+                'step3.title': 'Site Visits',
+                'step3.desc': 'Visit properties in person to check facilities and surroundings. Receive viewing reports.',
+                'step4.title': 'Contract & Loan Support',
+                'step4.desc': 'Full support from contract negotiation to loan applications. We secure favorable terms.',
+                'step5.title': 'Opening & Follow-up',
+                'step5.desc': 'Referrals for interior designers and equipment suppliers. Ongoing support after opening.',
+                'contact.heading': 'Salon Opening Consultation<br>with SalonX',
+                'contact.text': 'As a real estate broker specializing in beauty salons, we provide one-stop support from property search to opening. LINE inquiries are convenient.',
+                'form.name': 'Name *',
+                'form.email': 'Email *',
+                'form.phone': 'Phone',
+                'form.type': 'Inquiry Type',
+                'form.type.property': 'Property Inquiry',
+                'form.type.consultation': 'Opening Consultation',
+                'form.type.loan': 'Loan Consultation',
+                'form.type.other': 'Other',
+                'form.message': 'Message',
+                'form.submit': 'Submit',
+                'footer.desc': 'As a real estate broker specializing in beauty salons, we provide one-stop support from property search to opening.',
+                'footer.features': 'Features',
+                'footer.diagnostic': 'Calculator',
+                'footer.properties': 'Properties',
+                'footer.process': 'Process',
+                'footer.contact': 'Contact',
+                'footer.service1': 'Property Listings',
+                'footer.service2': 'Turnkey Matching',
+                'footer.service3': 'Loan Support',
+                'footer.service4': 'Opening Consulting',
+                'footer.about': 'About Us',
+                'footer.careers': 'Careers',
+                'footer.privacy': 'Privacy Policy',
+                'footer.legal1': 'Legal Notice',
+                'footer.legal2': 'Terms of Use',
+                'footer.legal3': 'Privacy Policy'
+            },
+            zh: {
+                'hero.kicker': '由美发师×房产经纪人创办的不动产公司',
+                'hero.title': '您好！<br>您在寻找什么样的<br>美容沙龙空间？',
+                'hero.lead': '从转让店到毛坯房再到共享沙龙。<br class="sp-hide">我们为您找到最合适的店铺。',
+                'btn.diagnostic': '开业诊断',
+                'btn.properties': '查看物件',
+                'btn.line': 'LINE咨询',
+                'nav.philosophy': '理念',
+                'nav.features': '特色',
+                'nav.diagnostic': '诊断',
+                'nav.properties': '物件',
+                'nav.process': '流程',
+                'nav.contact': '联系我们',
+                'features.kicker': 'Why Choose Us',
+                'features.title': '选择SalonX的理由',
+                'features.lead': '专注美容沙龙——我们最懂您的需求。',
+                'diagnostic.kicker': 'Diagnostic',
+                'diagnostic.title': '5分钟开业诊断',
+                'diagnostic.lead': '只需输入目标数字，即可了解理想租金和所需资金。',
+                'properties.kicker': 'Properties',
+                'properties.title': '最新物件信息',
+                'properties.lead': '精选沙龙专用物件。全部经过实地确认。',
+                'filter.all': '全部',
+                'filter.skeleton': '毛坯',
+                'filter.turnkey': '转让',
+                'filter.street': '临街店铺',
+                'filter.share': '共享沙龙',
+                'filter.favorite': '收藏',
+                'process.kicker': 'Process',
+                'process.title': '使用流程',
+                'process.lead': '从咨询到开业，全程为您提供支持。',
+                'contact.kicker': 'Contact',
+                'contact.title': '联系我们',
+                'contact.lead': '欢迎随时咨询。专业人员将为您提供服务。',
+                'feature1.title': '零虚假房源',
+                'feature1.desc': '所有房源均经过实地确认。绝不浪费您的时间。',
+                'feature2.title': '5分钟开业诊断',
+                'feature2.desc': '根据目标客户数和客单价，即时计算最佳租金和启动资金。',
+                'feature3.title': 'LINE即时回复',
+                'feature3.desc': '通过LINE实时接收新房源通知。直接在聊天中预约看房。',
+                'feature4.title': '转让店评估',
+                'feature4.desc': '通过独家网络获取大量转让店铺。通过设备转让匹配大幅降低成本。',
+                'feature5.title': '融资支持',
+                'feature5.desc': '全面支持包括日本政策金融公库在内的融资申请。成功率超过94%。',
+                'feature6.title': '看房报告自动生成',
+                'feature6.desc': '看房后自动生成PDF报告。节省物件比较和融资咨询所需的文档时间。',
+                'diag.daily': '每日目标客户数',
+                'diag.daily.unit': '人/天',
+                'diag.workdays': '每月营业天数',
+                'diag.workdays.unit': '天/月',
+                'diag.price': '平均客单价',
+                'diag.price.unit': '日元',
+                'diag.type': '物件类型',
+                'diag.turnkey': '转让店（装修费低）',
+                'diag.skeleton': '毛坯（装修费高）',
+                'diag.revenue': '预计月营业额',
+                'diag.rent': '合适租金',
+                'diag.breakdown': '预计初期资金明细',
+                'diag.deposit': '押金（6个月租金）',
+                'diag.interior': '装修费（估算）',
+                'diag.working': '运营资金（3个月）',
+                'diag.total': '合计',
+                'diag.note': '※ 实际费用因物件和条件而异。详情请咨询。',
+                'step1.title': '免费咨询',
+                'step1.desc': '通过LINE或电话告诉我们您希望的地区、预算和沙龙概念。',
+                'step2.title': '物件推荐',
+                'step2.desc': '精选符合您需求的物件。也可介绍非公开房源。',
+                'step3.title': '实地看房',
+                'step3.desc': '实地查看物件，确认设备和周边环境。提供看房报告。',
+                'step4.title': '签约・融资支持',
+                'step4.desc': '从合同谈判到融资申请全程支持。争取有利条件。',
+                'step5.title': '开业・后续支持',
+                'step5.desc': '可介绍装修公司和设备供应商。开业后持续提供支持。',
+                'contact.heading': '美容沙龙开业咨询<br>请联系SalonX',
+                'contact.text': '作为专注美容沙龙的房产经纪人，我们提供从找房到开业的一站式服务。LINE咨询更方便。',
+                'form.name': '姓名 *',
+                'form.email': '邮箱 *',
+                'form.phone': '电话',
+                'form.type': '咨询类型',
+                'form.type.property': '物件咨询',
+                'form.type.consultation': '开业咨询',
+                'form.type.loan': '融资咨询',
+                'form.type.other': '其他',
+                'form.message': '咨询内容',
+                'form.submit': '提交',
+                'footer.desc': '作为专注美容沙龙的房产经纪人，我们提供从找房到开业的一站式服务。',
+                'footer.features': '特色',
+                'footer.diagnostic': '开业诊断',
+                'footer.properties': '物件信息',
+                'footer.process': '使用流程',
+                'footer.contact': '联系我们',
+                'footer.service1': '物件介绍',
+                'footer.service2': '转让店匹配',
+                'footer.service3': '融资支持',
+                'footer.service4': '开业咨询',
+                'footer.about': '公司简介',
+                'footer.careers': '招聘信息',
+                'footer.privacy': '隐私政策',
+                'footer.legal1': '特定商业交易法标识',
+                'footer.legal2': '使用条款',
+                'footer.legal3': '隐私政策'
+            }
+        };
+        
+        function setLanguage(lang) {
+            const t = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    if (el.tagName === 'OPTION') {
+                        el.textContent = t[key];
+                    } else {
+                        el.innerHTML = t[key];
+                    }
+                }
+            });
+        }
+        
+        document.querySelectorAll('.lang-switch button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                setLanguage(btn.getAttribute('data-lang'));
+            });
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const href = this.getAttribute('href'); if (href !== '#') { e.preventDefault(); const target = document.querySelector(href); if (target) { const offset = document.getElementById('header').offsetHeight + 20; window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' }); } } document.getElementById('navMenu').classList.remove('active'); document.getElementById('navToggle').classList.remove('active'); }); });
+        document.getElementById('navToggle').addEventListener('click', function() { 
+            document.getElementById('navMenu').classList.toggle('active'); 
+            this.classList.toggle('active');
+        });
+        
+        // Philosophy Modal
+        const modal = document.getElementById('philosophyModal');
+        document.getElementById('philosophyLink').addEventListener('click', (e) => { e.preventDefault(); modal.classList.add('active'); });
+        document.querySelector('.modal-close').addEventListener('click', () => { modal.classList.remove('active'); });
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+        
         calculate();
     </script>
 </body>
